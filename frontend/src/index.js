@@ -11,11 +11,13 @@ import {
 import "./index.css";
 import App from "./App";
 import HomePage from "./Pages/HomePage/HomePage";
+import ProductPage from "./Pages/ProductPage/ProductPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index={true} path="/" element={<HomePage />} />
+      <Route path="/product/:id" element={<ProductPage />} />
     </Route>
   )
 );
