@@ -1,0 +1,15 @@
+{
+  "name": "techshop-mern-practice",
+  "version": "1.0.0",
+  "description": "This is an online shop app to practice MERN fullstack skills",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "author": "AvetBadalyan",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
