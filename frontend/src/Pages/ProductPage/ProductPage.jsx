@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
 import Rating from "../../Components/Rating/Rating";
@@ -25,7 +25,9 @@ const ProductPage = () => {
           <Loader />
         </div>
       ) : isError ? (
-        <Message variant="danger">{isError.data?.message || isError.error}</Message>
+        <Message variant="danger">
+          {isError.data?.message || isError.error}
+        </Message>
       ) : (
         <Row>
           <Col md={5}>
