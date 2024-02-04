@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-import asyncHandler from "./asyncHandler";
-import User from "../models/userModel";
+import User from "../models/userModel.js";
+import asyncHandler from "./asyncHandler.js";
 
 // User must be authenticated
 const protect = asyncHandler(async (req, res, next) => {
