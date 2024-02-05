@@ -1,12 +1,9 @@
-
-
+import asyncHandler from "../middleware/asyncHandler.js";
+import Order from "./../models/orderModel.js";
 // @desc    Create new order
 // @route   POST /api/orders
-
-import asyncHandler from "../middleware/asyncHandler";
-import Order from './../models/orderModel';
-
 // @access  Private
+
 const addOrderItems = asyncHandler(async (req, res) => {
   const {
     orderItems,
