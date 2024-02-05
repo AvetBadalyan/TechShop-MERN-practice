@@ -7,14 +7,16 @@ import Message from "../../Components/Message/Message";
 const OrderPage = () => {
   const { id: orderId } = useParams();
 
-  const { data: order, isLoading, error } = useGetOrderDetailsQuery(orderId);
-  console.log(order, "order");
+  const { data: order, isLoading, isError } = useGetOrderDetailsQuery(orderId);
+
   return isLoading ? (
     <div className="loader-container">
       <Loader />
     </div>
-  ) : error ? (
-    <Message variant="danger">{error}</Message>
+  ) : isError ? (
+    <Message variant="danger">
+      {isError.data?.message || isError.error || "An Error Occurred"}
+    </Message>
   ) : (
     <>
       <h1>Order {order._id}</h1>
@@ -121,8 +123,6 @@ const OrderPage = () => {
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
-              {/* PAY ORDER PLACEHOLDER */}
-              {/* {MARK AS DELIVERED PLACEHOLDER} */}
             </ListGroup>
           </Card>
         </Col>

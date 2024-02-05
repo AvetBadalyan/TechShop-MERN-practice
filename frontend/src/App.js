@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import Header from "./Components/Header/Header";
 import Footer from "./Components/Footer/Footer";
@@ -6,8 +6,21 @@ import { Outlet } from "react-router-dom";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from "react-redux";
+import { logout } from "./slices/authSlice";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const expirationTime = localStorage.getItem("expirationTime");
+    if (expirationTime) {
+      const currentTime = new Date().getTime();
+      if (currentTime > expirationTime) {
+        dispatch(logout());
+      }
+    }
+  }, [dispatch]);
   return (
     <>
       <ToastContainer />
