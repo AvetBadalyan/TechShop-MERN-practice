@@ -3,17 +3,23 @@ import Product from "../../Components/Product/Product";
 import { useGetProductsQuery } from "../../slices/productsApiSlice";
 import Loader from "../../Components/Loader/Loader";
 import Message from "./../../Components/Message/Message";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Paginate from "../../Components/Paginate/Paginate";
 
 const HomePage = () => {
-  const { pageNumber } = useParams();
+  const { pageNumber, keyword } = useParams();
 
   const { data, isLoading, isError } = useGetProductsQuery({
+    keyword,
     pageNumber,
   });
   return (
     <div>
+      {keyword && (
+        <Link to="/" className="btn btn-light mb-4">
+          Go Back
+        </Link>
+      )}
       {isLoading ? (
         <div className="loader-container">
           <Loader />
@@ -32,7 +38,11 @@ const HomePage = () => {
               </Col>
             ))}
           </Row>
-          <Paginate pages={data.pages} page={data.page} />
+          <Paginate
+            pages={data.pages}
+            page={data.page}
+            keyword={keyword ? keyword : ""}
+          />
         </>
       )}
     </div>
