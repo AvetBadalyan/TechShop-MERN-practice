@@ -9,9 +9,15 @@ import {
 import Loader from "../../../Components/Loader/Loader";
 import Message from "../../../Components/Message/Message";
 import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
+import Paginate from "../../../Components/Paginate/Paginate";
 
 const ProductListPage = () => {
-  const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+  const { pageNumber } = useParams();
+
+  const { data, isLoading, error, refetch } = useGetProductsQuery({
+    pageNumber,
+  });
 
   const [deleteProduct, { isLoading: loadingDelete }] =
     useDeleteProductMutation();
@@ -53,7 +59,7 @@ const ProductListPage = () => {
           </Button>
         </Col>
       </Row>
-      
+
       {loadingDelete && <Loader />}
       {loadingCreate && <Loader />}
       {isLoading ? (
@@ -74,7 +80,7 @@ const ProductListPage = () => {
               </tr>
             </thead>
             <tbody>
-              {products.map((product) => (
+              {data.products.map((product) => (
                 <tr key={product._id}>
                   <td>{product._id}</td>
                   <td>{product.name}</td>
@@ -99,7 +105,7 @@ const ProductListPage = () => {
               ))}
             </tbody>
           </Table>
-          {/* PAGINATE PLACEHOLDER */}
+          <Paginate pages={data.pages} page={data.page} isAdmin={true} />
         </>
       )}
     </>
