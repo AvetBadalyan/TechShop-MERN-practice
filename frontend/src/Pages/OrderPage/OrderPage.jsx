@@ -1,9 +1,10 @@
 import { Link, useParams } from "react-router-dom";
-import { Row, Col, ListGroup, Image, Card } from "react-bootstrap";
+import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
 import {
   useGetOrderDetailsQuery,
   usePayOrderMutation,
   useGetPaypalClientIdQuery,
+  useDeliverOrderMutation,
 } from "../../slices/orderApiSlice";
 import Loader from "../../Components/Loader/Loader";
 import Message from "../../Components/Message/Message";
@@ -25,6 +26,9 @@ const OrderPage = () => {
   } = useGetOrderDetailsQuery(orderId);
 
   const [payOrder, { isLoading: payOrderLoading }] = usePayOrderMutation();
+
+  const [deliverOrder, { isLoading: loadingDeliver }] =
+    useDeliverOrderMutation();
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -85,6 +89,16 @@ const OrderPage = () => {
         return orderID;
       });
   }
+
+  const deliverOrderHandler = async () => {
+    try {
+      await deliverOrder(orderId);
+      refetch();
+      toast.success("Order delivered");
+    } catch (error) {
+      toast.error(error.data?.message || error.message);
+    }
+  };
 
   return isLoading ? (
     <div className="loader-container">
@@ -226,7 +240,23 @@ const OrderPage = () => {
                   )}
                 </ListGroup.Item>
               )}
-              {/* {MARK AS DELIVERED PLACEHOLDER} */}
+
+              {loadingDeliver && <Loader />}
+
+              {userInfo &&
+                userInfo.isAdmin &&
+                order.isPaid &&
+                !order.isDelivered && (
+                  <ListGroup.Item>
+                    <Button
+                      type="button"
+                      className="btn btn-block"
+                      onClick={deliverOrderHandler}
+                    >
+                      Mark As Delivered
+                    </Button>
+                  </ListGroup.Item>
+                )}
             </ListGroup>
           </Card>
         </Col>
