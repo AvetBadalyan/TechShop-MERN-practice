@@ -1,9 +1,9 @@
 import { LinkContainer } from "react-router-bootstrap";
 import { Table, Button } from "react-bootstrap";
 import { FaTimes } from "react-icons/fa";
-import Loader from "../../Components/Loader/Loader";
-import Message from "../../Components/Message/Message";
-import { useGetOrdersQuery } from "../../slices/orderApiSlice";
+import { useGetOrdersQuery } from "../../../slices/orderApiSlice";
+import Loader from "../../../Components/Loader/Loader";
+import Message from "../../../Components/Message/Message";
 
 const OrderListPage = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery();
