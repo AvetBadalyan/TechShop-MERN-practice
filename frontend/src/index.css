@@ -71,6 +71,11 @@ table th {
   background: rgba(0, 0, 0, 0.5);
 }
 
+.carousel-img {
+  max-height: 500px;
+  margin: 0 auto;
+}
+
 .loader-container {
   position: fixed;
   top: 50%;
