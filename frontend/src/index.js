@@ -27,11 +27,11 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import ProfilePage from "./Pages/ProfilePage/ProfilePage.jsx";
 import AdminRoute from "./Components/AdminRoute/AdminRoute.jsx";
 import ProductListPage from "./Pages/AdminPages/ProductListPages/ProductListPages.jsx";
-
-import ProductFormPage from "./Pages/AdminPages/ProductFormPage/ProductFormPage.jsx";
 import OrderListPage from "./Pages/AdminPages/OrderListPage/OrderListPage.jsx";
 import UserListPage from "./Pages/AdminPages/UserListPage/UserListPage.jsx";
 import UserEditPage from "./Pages/AdminPages/UserEditPage/UserEditPage.jsx";
+import CreateProductPage from "./Pages/AdminPages/CreateProductPage/CreateProductPage.jsx";
+import EditProductPage from "./Pages/AdminPages/EditProductPage/EditProductPage.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -59,7 +59,8 @@ const router = createBrowserRouter(
           path="/admin/productlist/:pageNumber"
           element={<ProductListPage />}
         />
-        <Route path="/admin/product/:id/edit" element={<ProductFormPage />} />
+        <Route path="/admin/product/create" element={<CreateProductPage />} />
+        <Route path="/admin/product/:id/edit" element={<EditProductPage />} />
         <Route path="/admin/userlist" element={<UserListPage />} />
         <Route path="/admin/user/:id/edit" element={<UserEditPage />} />
       </Route>

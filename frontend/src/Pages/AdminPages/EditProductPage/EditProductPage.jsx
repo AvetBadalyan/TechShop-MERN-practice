@@ -12,7 +12,7 @@ import FormContainer from "../../../Components/FormContainer/FormContainer";
 import Loader from "../../../Components/Loader/Loader";
 import Message from "../../../Components/Message/Message";
 
-const ProductFormPage = () => {
+const EditProductPage = () => {
   const { id: productId } = useParams();
 
   const [name, setName] = useState("");
@@ -187,4 +187,4 @@ const ProductFormPage = () => {
   );
 };
 
-export default ProductFormPage;
+export default EditProductPage;

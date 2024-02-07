@@ -2,7 +2,6 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Table, Button, Row, Col } from "react-bootstrap";
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import {
-  useCreateProductMutation,
   useDeleteProductMutation,
   useGetProductsQuery,
 } from "../../../slices/productsApiSlice";
@@ -33,20 +32,6 @@ const ProductListPage = () => {
     }
   };
 
-  const [createProduct, { isLoading: loadingCreate }] =
-    useCreateProductMutation();
-
-  const createProductHandler = async () => {
-    if (window.confirm("Are you sure you want to create a new product?")) {
-      try {
-        await createProduct();
-        refetch();
-      } catch (err) {
-        toast.error(err?.data?.message || err.error);
-      }
-    }
-  };
-
   return (
     <>
       <Row className="align-items-center">
@@ -54,14 +39,15 @@ const ProductListPage = () => {
           <h1>Products</h1>
         </Col>
         <Col className="text-end">
-          <Button className="my-3" onClick={createProductHandler}>
-            <FaPlus /> Create Product
-          </Button>
+          <LinkContainer to={`/admin/product/create`}>
+            <Button className="my-3">
+              <FaPlus /> Create Product
+            </Button>
+          </LinkContainer>
         </Col>
       </Row>
 
       {loadingDelete && <Loader />}
-      {loadingCreate && <Loader />}
       {isLoading ? (
         <Loader />
       ) : error ? (
