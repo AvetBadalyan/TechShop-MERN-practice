@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import { Table, Button, Row, Col } from "react-bootstrap";
+import { Table, Button, Row, Col, Modal } from "react-bootstrap";
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import {
   useDeleteProductMutation,
@@ -20,16 +21,26 @@ const ProductListPage = () => {
 
   const [deleteProduct, { isLoading: loadingDelete }] =
     useDeleteProductMutation();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [productIdToDelete, setProductIdToDelete] = useState(null);
 
-  const deleteHandler = async (id) => {
-    if (window.confirm("Are you sure")) {
-      try {
-        await deleteProduct(id);
-        refetch();
-      } catch (err) {
-        toast.error(err?.data?.message || err.error);
-      }
+  const handleDeleteModal = (id) => {
+    setShowDeleteModal(true);
+    setProductIdToDelete(id);
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      await deleteProduct(productIdToDelete);
+      refetch();
+      setShowDeleteModal(false);
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
     }
+  };
+
+  const handleDeleteCancel = () => {
+    setShowDeleteModal(false);
   };
 
   return (
@@ -82,7 +93,7 @@ const ProductListPage = () => {
                     <Button
                       variant="danger"
                       className="btn-sm"
-                      onClick={() => deleteHandler(product._id)}
+                      onClick={() => handleDeleteModal(product._id)}
                     >
                       <FaTrash style={{ color: "white" }} />
                     </Button>
@@ -92,6 +103,24 @@ const ProductListPage = () => {
             </tbody>
           </Table>
           <Paginate pages={data.pages} page={data.page} isAdmin={true} />
+
+          {/* Delete Confirmation Modal */}
+          <Modal show={showDeleteModal} onHide={handleDeleteCancel}>
+            <Modal.Header closeButton>
+              <Modal.Title>Delete Confirmation</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Are you sure you want to delete this product?
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="light" onClick={handleDeleteCancel}>
+                Cancel
+              </Button>
+              <Button variant="danger" className="btn btn-danger" onClick={handleDeleteConfirm}>
+                Delete
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </>
       )}
     </>

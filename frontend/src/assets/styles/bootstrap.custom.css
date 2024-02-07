@@ -3193,14 +3193,14 @@ fieldset:disabled .btn {
 }
 
 .btn-danger {
-  --bs-btn-color: #000;
+  --bs-btn-color: #fff;
   --bs-btn-bg: #e74c3c;
   --bs-btn-border-color: #e74c3c;
-  --bs-btn-hover-color: #000;
-  --bs-btn-hover-bg: #eb6759;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: red;
   --bs-btn-hover-border-color: #e95e50;
   --bs-btn-focus-shadow-rgb: 196, 65, 51;
-  --bs-btn-active-color: #000;
+  --bs-btn-active-color: #fff;
   --bs-btn-active-bg: #ec7063;
   --bs-btn-active-border-color: #e95e50;
   --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);

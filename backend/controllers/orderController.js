@@ -15,7 +15,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
     throw new Error("No order items");
   } else {
     const itemsFromDB = await Product.find({
-      _id: { $in: orderItems.map((x) => x._id) },
+      _id: { $in: orderItems.map((orderItem) => orderItem._id) },
     });
 
     const dbOrderItems = orderItems.map((itemFromClient) => {

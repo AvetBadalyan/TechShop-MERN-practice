@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, Modal } from "react-bootstrap";
 import { FaTrash, FaEdit, FaCheck, FaTimes } from "react-icons/fa";
 import {
   useDeleteUserMutation,
@@ -14,16 +14,26 @@ const UserListPage = () => {
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();
 
   const [deleteUser, { isLoading: loadingDelete }] = useDeleteUserMutation();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [userIdToDelete, setUserIdToDelete] = useState(null);
 
-  const deleteHandler = async (id) => {
-    if (window.confirm("Are you sure")) {
-      try {
-        await deleteUser(id);
-        refetch();
-      } catch (err) {
-        toast.error(err?.data?.message || err.error);
-      }
+  const handleDeleteModal = (id) => {
+    setShowDeleteModal(true);
+    setUserIdToDelete(id);
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      await deleteUser(userIdToDelete);
+      refetch();
+      setShowDeleteModal(false);
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
     }
+  };
+
+  const handleDeleteCancel = () => {
+    setShowDeleteModal(false);
   };
 
   return (
@@ -75,8 +85,8 @@ const UserListPage = () => {
                       </LinkContainer>
                       <Button
                         variant="danger"
-                        className="btn-sm"
-                        onClick={() => deleteHandler(user._id)}
+                        className="btn-sm btn btn-danger"
+                        onClick={() => handleDeleteModal(user._id)}
                       >
                         <FaTrash style={{ color: "white" }} />
                       </Button>
@@ -88,6 +98,21 @@ const UserListPage = () => {
           </tbody>
         </Table>
       )}
+      {/* Delete Confirmation Modal */}
+      <Modal show={showDeleteModal} onHide={handleDeleteCancel}>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Confirmation</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this user?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="light" onClick={handleDeleteCancel}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleDeleteConfirm}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
