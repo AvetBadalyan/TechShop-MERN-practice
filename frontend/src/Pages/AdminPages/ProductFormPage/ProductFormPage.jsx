@@ -50,8 +50,8 @@ const ProductFormPage = () => {
         category,
         description,
         countInStock,
-      });
-      toast.success("product updated successfully");
+      }).unwrap();
+      toast.success("Product updated successfully");
       refetch();
       navigate("/admin/productlist");
     } catch (err) {
@@ -94,7 +94,7 @@ const ProductFormPage = () => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant="danger">{error}</Message>
+          <Message variant="danger">{error.data.message}</Message>
         ) : (
           <Form onSubmit={submitHandler}>
             <Form.Group controlId="name">

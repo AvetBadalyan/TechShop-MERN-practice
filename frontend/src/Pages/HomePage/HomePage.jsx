@@ -6,6 +6,7 @@ import Message from "./../../Components/Message/Message";
 import { Link, useParams } from "react-router-dom";
 import Paginate from "../../Components/Paginate/Paginate";
 import ProductCarousel from "../../Components/ProductCarousel/ProductCarousel";
+import Meta from "../../Components/meta/Meta";
 
 const HomePage = () => {
   const { pageNumber, keyword } = useParams();
@@ -33,6 +34,7 @@ const HomePage = () => {
         </Message>
       ) : (
         <>
+          <Meta />
           <h1>Latest Products</h1>
           <Row>
             {data.products.map((product) => (

@@ -1,8 +1,11 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import Product from "../models/productModel.js";
 
+// @desc    Fetch all products
+// @route   GET /api/products
+// @access  Public
 const getProducts = asyncHandler(async (req, res) => {
-  const pageSize = 8;
+  const pageSize = process.env.PAGINATION_LIMIT;
   const page = Number(req.query.pageNumber) || 1;
 
   const keyword = req.query.keyword
@@ -22,13 +25,17 @@ const getProducts = asyncHandler(async (req, res) => {
   res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
+// @desc    Fetch single product
+// @route   GET /api/products/:id
+// @access  Public
 const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (product) {
     return res.json(product);
+  } else {
+    res.status(404);
+    throw new Error("Product not found");
   }
-  res.status(404);
-  throw new Error("Resource not found");
 });
 
 // @desc    Create a product
@@ -39,7 +46,7 @@ const createProduct = asyncHandler(async (req, res) => {
     name: "Sample name",
     price: 0,
     user: req.user._id,
-    image: "images/item.png",
+    image: "/images/item.png",
     brand: "Sample brand",
     category: "Sample category",
     countInStock: 0,
@@ -138,6 +145,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 // @access  Public
 const getTopProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+
   res.status(200).json(products);
 });
 

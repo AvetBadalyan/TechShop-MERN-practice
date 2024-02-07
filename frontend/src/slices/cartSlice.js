@@ -21,7 +21,7 @@ const cartSlice = createSlice({
   initialState: getInitialState(),
   reducers: {
     addToCart: (state, action) => {
-      const newItem = action.payload;
+      const { user, rating, numReviews, reviews, ...newItem } = action.payload;
 
       // Check if the item is already in the cart
       const existingItem = state.cartItems.find(
@@ -36,7 +36,7 @@ const cartSlice = createSlice({
         state.cartItems.push(newItem);
       }
 
-      return updateCart(state);
+      return updateCart(state, newItem);
     },
     removeFromCart: (state, action) => {
       state.cartItems = state.cartItems.filter(
@@ -61,6 +61,17 @@ const cartSlice = createSlice({
       state.totalPrice = 0;
       localStorage.setItem("cart", JSON.stringify(state));
     },
+    //  reset state for when a user logs out so the next doesn't inherit the previous users cart and shipping
+    resetCart: (state) =>
+      (state = {
+        cartItems: [],
+        itemsPrice: 0,
+        shippingPrice: 0,
+        taxPrice: 0,
+        totalPrice: 0,
+        shippingAddress: {},
+        paymentMethod: "PayPal",
+      }),
   },
 });
 
@@ -70,6 +81,7 @@ export const {
   saveShippingAddress,
   savePaymentMethod,
   clearCartItems,
+  resetCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
