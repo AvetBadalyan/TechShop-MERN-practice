@@ -12,7 +12,9 @@ const OrderListPage = () => {
     <>
       <h1>Orders</h1>
       {isLoading ? (
-        <Loader />
+        <div className="loader-container">
+          <Loader />
+        </div>
       ) : error ? (
         <Message variant="danger">
           {error?.data?.message || error.error}

@@ -13,7 +13,7 @@ const ShippingPage = () => {
   const [address, setAddress] = useState(shippingAddress?.address || "");
   const [city, setCity] = useState(shippingAddress?.city || "");
   const [postalCode, setPostalCode] = useState(
-    shippingAddress?.postalCode || ""
+    shippingAddress?.postalCode || 11111
   );
   const [country, setCountry] = useState(shippingAddress?.country || "");
 
@@ -56,7 +56,7 @@ const ShippingPage = () => {
         <Form.Group className="my-2" controlId="postalCode">
           <Form.Label>Postal Code</Form.Label>
           <Form.Control
-            type="text"
+            type="number"
             placeholder="Enter postal code"
             value={postalCode}
             required

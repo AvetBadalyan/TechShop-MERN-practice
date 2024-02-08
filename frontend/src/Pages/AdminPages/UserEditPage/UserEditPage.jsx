@@ -55,9 +55,15 @@ const UserEditPage = () => {
       </Link>
       <FormContainer>
         <h1>Edit User</h1>
-        {loadingUpdate && <Loader />}
+        {loadingUpdate && (
+          <div className="loader-container">
+            <Loader />
+          </div>
+        )}
         {isLoading ? (
-          <Loader />
+          <div className="loader-container">
+            <Loader />
+          </div>
         ) : error ? (
           <Message variant="danger">
             {error?.data?.message || error.error}

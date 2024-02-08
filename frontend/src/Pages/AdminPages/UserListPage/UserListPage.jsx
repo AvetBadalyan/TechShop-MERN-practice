@@ -39,9 +39,15 @@ const UserListPage = () => {
   return (
     <>
       <h1>Users</h1>
-      {loadingDelete && <Loader />}
+      {loadingDelete && (
+        <div className="loader-container">
+          <Loader />
+        </div>
+      )}
       {isLoading ? (
-        <Loader />
+        <div className="loader-container">
+          <Loader />
+        </div>
       ) : error ? (
         <Message variant="danger">
           {error?.data?.message || error.error}

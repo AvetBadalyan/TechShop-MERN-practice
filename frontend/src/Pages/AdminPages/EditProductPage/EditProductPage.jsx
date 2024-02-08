@@ -92,7 +92,9 @@ const EditProductPage = () => {
         <h1>Edit Product</h1>
         {loadingUpdate && <Loader />}
         {isLoading ? (
-          <Loader />
+          <div className="loader-container">
+            <Loader />
+          </div>
         ) : error ? (
           <Message variant="danger">{error.data.message}</Message>
         ) : (
@@ -130,7 +132,11 @@ const EditProductPage = () => {
                 onChange={uploadFileHandler}
                 type="file"
               ></Form.Control>
-              {loadingUpload && <Loader />}
+              {loadingUpload && (
+                <div className="loader-container">
+                  <Loader />
+                </div>
+              )}
             </Form.Group>
 
             <Form.Group controlId="brand">

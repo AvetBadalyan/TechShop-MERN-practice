@@ -98,13 +98,19 @@ const ProfilePage = () => {
           <Button type="submit" variant="primary">
             Update
           </Button>
-          {loadingUpdateProfile && <Loader />}
+          {loadingUpdateProfile && (
+            <div className="loader-container">
+              <Loader />
+            </div>
+          )}
         </Form>
       </Col>
       <Col md={9}>
         <h2>My Orders</h2>
         {isLoading ? (
-          <Loader />
+          <div className="loader-container">
+            <Loader />
+          </div>
         ) : error ? (
           <Message variant="danger">
             {error?.data?.message || error.error}

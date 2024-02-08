@@ -174,7 +174,11 @@ const ProductPage = () => {
                 <ListGroup.Item>
                   <h2>Write a Customer Review</h2>
 
-                  {loadingProductReview && <Loader />}
+                  {loadingProductReview && (
+                    <div className="loader-container">
+                      <Loader />
+                    </div>
+                  )}
 
                   {userInfo ? (
                     <Form onSubmit={submitHandler}>

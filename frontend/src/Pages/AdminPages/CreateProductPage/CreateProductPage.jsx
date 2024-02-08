@@ -69,7 +69,9 @@ const CreateProductPage = () => {
       <FormContainer>
         <h1>Create Product</h1>
         {loadingCreate ? (
-          <Loader />
+          <div className="loader-container">
+            <Loader />
+          </div>
         ) : error ? (
           <Message variant="danger">{error.data.message}</Message>
         ) : (
@@ -107,7 +109,11 @@ const CreateProductPage = () => {
                 onChange={uploadFileHandler}
                 type="file"
               ></Form.Control>
-              {loadingUpload && <Loader />}
+              {loadingUpload && (
+                <div className="loader-container">
+                  <Loader />
+                </div>
+              )}
             </Form.Group>
 
             <Form.Group controlId="brand">

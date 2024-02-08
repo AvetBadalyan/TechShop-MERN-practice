@@ -58,9 +58,15 @@ const ProductListPage = () => {
         </Col>
       </Row>
 
-      {loadingDelete && <Loader />}
+      {loadingDelete && (
+        <div className="loader-container">
+          <Loader />
+        </div>
+      )}
       {isLoading ? (
-        <Loader />
+        <div className="loader-container">
+          <Loader />
+        </div>
       ) : error ? (
         <Message variant="danger">{error.data.message}</Message>
       ) : (
@@ -116,7 +122,11 @@ const ProductListPage = () => {
               <Button variant="light" onClick={handleDeleteCancel}>
                 Cancel
               </Button>
-              <Button variant="danger" className="btn btn-danger" onClick={handleDeleteConfirm}>
+              <Button
+                variant="danger"
+                className="btn btn-danger"
+                onClick={handleDeleteConfirm}
+              >
                 Delete
               </Button>
             </Modal.Footer>
