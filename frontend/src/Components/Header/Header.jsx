@@ -39,7 +39,10 @@ const Header = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
               <SearchBox />
-              <LinkContainer to="/cart">
+              <LinkContainer
+                to="/cart"
+                className="d-flex align-items-center justify-content-center gap-1"
+              >
                 <Nav.Link>
                   <FaShoppingCart /> Cart
                   {cartItems.length > 0 && (
@@ -51,7 +54,11 @@ const Header = () => {
               </LinkContainer>
               {userInfo ? (
                 <>
-                  <NavDropdown title={userInfo.name} id="username">
+                  <NavDropdown
+                    title={userInfo.name}
+                    id="username"
+                    className="d-flex align-items-center justify-content-center gap-1"
+                  >
                     <LinkContainer to="/profile">
                       <NavDropdown.Item>Profile</NavDropdown.Item>
                     </LinkContainer>
@@ -61,7 +68,10 @@ const Header = () => {
                   </NavDropdown>
                 </>
               ) : (
-                <LinkContainer to="/login">
+                <LinkContainer
+                  to="/login"
+                  className="d-flex align-items-center justify-content-center gap-1"
+                >
                   <Nav.Link>
                     <FaUser /> Sign In
                   </Nav.Link>
@@ -70,7 +80,11 @@ const Header = () => {
 
               {/* Admin Links */}
               {userInfo && userInfo.isAdmin && (
-                <NavDropdown title="Admin" id="adminmenu">
+                <NavDropdown
+                  title="Admin"
+                  id="adminmenu"
+                  className="d-flex align-items-center justify-content-center gap-1"
+                >
                   <LinkContainer to="/admin/productlist">
                     <NavDropdown.Item>Products</NavDropdown.Item>
                   </LinkContainer>
