@@ -27,6 +27,15 @@
 - PayPal / credit card integration
 - Database seeder (products & users)
 
+![Screenshot](./screenshots/techsop%20screenshot1.jpg)
+![Screenshot](./screenshots/techsop%20screenshot2.jpg)
+![Screenshot](./screenshots/techsop%20screenshot3.jpg)
+![Screenshot](./screenshots/techsop%20screenshot4.jpg)
+![Screenshot](./screenshots/techsop%20screenshot5.jpg)
+![Screenshot](./screenshots/techsop%20screenshot6.jpg)
+![Screenshot](./screenshots/techsop%20screenshot7.jpg)
+![Screenshot](./screenshots/techsop%20screenshot8.jpg)
+
 ## Usage
 
 - Create a MongoDB database and obtain your `MongoDB URI` - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
