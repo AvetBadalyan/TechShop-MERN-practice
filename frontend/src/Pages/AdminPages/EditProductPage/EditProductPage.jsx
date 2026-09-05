@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Button, Form } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Form, Button } from "react-bootstrap";
 
 import { toast } from "react-toastify";
+import FormContainer from "../../../Components/FormContainer/FormContainer";
+import Loader from "../../../Components/Loader/Loader";
+import Message from "../../../Components/Message/Message";
 import {
   useGetProductDetailsQuery,
   useUpdateProductMutation,
   useUploadProductImageMutation,
 } from "../../../slices/productsApiSlice.js";
-import FormContainer from "../../../Components/FormContainer/FormContainer";
-import Loader from "../../../Components/Loader/Loader";
-import Message from "../../../Components/Message/Message";
 
 const EditProductPage = () => {
   const { id: productId } = useParams();
@@ -51,7 +51,9 @@ const EditProductPage = () => {
         description,
         countInStock,
       }).unwrap();
-      toast.success("Product updated successfully");
+      toast.success("Product updated successfully", {
+        toastId: "product-updated",
+      });
       refetch();
       navigate("/admin/productlist");
     } catch (err) {
@@ -76,7 +78,7 @@ const EditProductPage = () => {
     formData.append("image", e.target.files[0]);
     try {
       const res = await uploadProductImage(formData).unwrap();
-      toast.success(res.message);
+      toast.success(res.message, { toastId: "image-uploaded" });
       setImage(res.image);
     } catch (err) {
       toast.error(err?.data?.message || err.error);

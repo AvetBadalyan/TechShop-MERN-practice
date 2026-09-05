@@ -1,13 +1,14 @@
+import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
-import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
-import {
-  useGetOrderDetailsQuery,
-  usePayOrderMutation,
-  useGetPaypalClientIdQuery,
-  useDeliverOrderMutation,
-} from "../../slices/orderApiSlice";
 import Loader from "../../Components/Loader/Loader";
 import Message from "../../Components/Message/Message";
+import {
+  useDeliverOrderMutation,
+  useGetOrderDetailsQuery,
+  useGetPaypalClientIdQuery,
+  usePayOrderMutation,
+} from "../../slices/orderApiSlice";
+import { handleImageError } from "../../utils/imageUtils";
 
 import { useEffect } from "react";
 
@@ -164,6 +165,7 @@ const OrderPage = () => {
                           <Image
                             src={item.image}
                             alt={item.name}
+                            onError={handleImageError}
                             fluid
                             rounded
                           />

@@ -1,26 +1,27 @@
-import React, { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
 import {
-  Row,
+  Button,
+  Card,
   Col,
+  Form,
   Image,
   ListGroup,
-  Card,
-  Button,
-  Form,
+  Row,
 } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import Loader from "../../Components/Loader/Loader";
+import Message from "../../Components/Message/Message";
+import Meta from "../../Components/meta/Meta";
 import Rating from "../../Components/Rating/Rating";
+import { addToCart } from "../../slices/cartSlice";
 import {
   useCreateReviewMutation,
   useGetProductDetailsQuery,
 } from "../../slices/productsApiSlice";
-import Loader from "../../Components/Loader/Loader";
-import Message from "../../Components/Message/Message";
-import { addToCart } from "../../slices/cartSlice";
-import { useDispatch, useSelector } from "react-redux";
 import { generateQuantityOptions } from "../../utils/cartUtils";
-import { toast } from "react-toastify";
-import Meta from "../../Components/meta/Meta";
+import { handleImageError } from "../../utils/imageUtils";
 
 const ProductPage = () => {
   const { id: productId } = useParams();
@@ -85,7 +86,12 @@ const ProductPage = () => {
           <Meta title={product.name} description={product.description} />
           <Row>
             <Col md={5}>
-              <Image src={product.image} alt={product.name} fluid />
+              <Image
+                src={product.image}
+                alt={product.name}
+                onError={handleImageError}
+                fluid
+              />
             </Col>
             <Col md={4}>
               <ListGroup variant="flush">

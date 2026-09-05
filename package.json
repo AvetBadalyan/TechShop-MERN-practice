@@ -7,29 +7,42 @@
   "scripts": {
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
-    "client": "npm start --prefix frontend",
+    "client": "npm run dev --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "data:import": "node backend/seeder.js",
     "data:destroy": "node backend/seeder.js -d",
     "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend",
-    "generate-toc": "markdown-toc -i readme.md"
+    "lint": "eslint backend",
+    "lint:fix": "eslint backend --fix",
+    "format": "prettier --write \"backend/**/*.js\" \"frontend/src/**/*.{js,jsx}\"",
+    "format:check": "prettier --check \"backend/**/*.js\" \"frontend/src/**/*.{js,jsx}\""
   },
   "author": "Avet Badalyan",
   "license": "ISC",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
+    "bcryptjs": "^3.0.3",
+    "cloudinary": "^2.11.0",
     "cookie-parser": "^1.4.6",
-    "express": "^4.18.2",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.7.0",
+    "helmet": "^8.3.0",
     "jsonwebtoken": "^9.0.2",
-    "mongodb": "^6.3.0",
-    "mongoose": "^8.1.1",
-    "multer": "^1.4.5-lts.1"
+    "mongodb": "^7.6.0",
+    "mongoose": "^9.9.5",
+    "multer": "^2.3.0",
+    "streamifier": "^0.1.1",
+    "zod": "^4.5.4"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
     "@types/express": "^4.17.17",
-    "markdown-toc": "^1.2.0",
-    "concurrently": "^8.2.2",
-    "dotenv": "^16.4.1",
-    "nodemon": "^3.0.3"
+    "concurrently": "^10.0.5",
+    "dotenv": "^17.4.2",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.12.0",
+    "nodemon": "^3.0.3",
+    "prettier": "^3.9.6"
   }
 }

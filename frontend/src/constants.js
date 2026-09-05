@@ -1,6 +1,6 @@
-// export const BASE_URL =
-//   process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '';
-export const BASE_URL = ""; // If using proxy
+// Empty base URL: requests are relative and go through the Vite dev proxy
+// (dev) or the same origin that serves the built app (production).
+export const BASE_URL = "";
 export const PRODUCTS_URL = "/api/products";
 export const USERS_URL = "/api/users";
 export const ORDERS_URL = "/api/orders";

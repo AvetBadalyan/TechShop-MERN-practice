@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import mongoose from "mongoose";
 
 const userSchema = mongoose.Schema(
   {
@@ -34,8 +34,11 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 
 // Encrypt password using bcrypt
 userSchema.pre("save", async function (next) {
+  // Only hash the password if it has been changed (or is new).
+  // Without the `return`, an unchanged password would be re-hashed on every
+  // save (e.g. profile updates), which corrupts the stored hash and breaks login.
   if (!this.isModified("password")) {
-    next();
+    return next();
   }
 
   const salt = await bcrypt.genSalt(10);

@@ -1,37 +1,36 @@
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import React from "react";
 import ReactDOM from "react-dom/client";
-// import "bootstrap/dist/css/bootstrap.min.css";
-import "./assets/styles/bootstrap.custom.css";
+import { HelmetProvider } from "react-helmet-async";
+import { Provider } from "react-redux";
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
 } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
-import "./index.css";
-import App from "./App";
-import HomePage from "./Pages/HomePage/HomePage";
-import ProductPage from "./Pages/ProductPage/ProductPage";
-import { Provider } from "react-redux";
-import store from "./store/store";
-import CartPage from "./Pages/CartPage/CartPage.jsx";
-import LoginPage from "./Pages/LoginPage/LoginPage.jsx";
-import RegisterPage from "./Pages/RegisterPage/Register.jsx";
-import ShippingPage from "./Pages/ShippingPage/ShippingPage.jsx";
-import PrivateRoute from "./Components/PrivateRoute/PrivateRoute.jsx";
-import PaymentPage from "./Pages/PaymentPage/PaymentPage.jsx";
-import PlaceOrderPage from "./Pages/PlaceOrderPage/PlaceOrderPage.jsx";
-import OrderPage from "./Pages/OrderPage/OrderPage.jsx";
-import { PayPalScriptProvider } from "@paypal/react-paypal-js";
-import ProfilePage from "./Pages/ProfilePage/ProfilePage.jsx";
+import App from "./App.jsx";
+import "./assets/styles/bootstrap.custom.css";
 import AdminRoute from "./Components/AdminRoute/AdminRoute.jsx";
-import ProductListPage from "./Pages/AdminPages/ProductListPages/ProductListPages.jsx";
-import OrderListPage from "./Pages/AdminPages/OrderListPage/OrderListPage.jsx";
-import UserListPage from "./Pages/AdminPages/UserListPage/UserListPage.jsx";
-import UserEditPage from "./Pages/AdminPages/UserEditPage/UserEditPage.jsx";
+import PrivateRoute from "./Components/PrivateRoute/PrivateRoute.jsx";
+import "./index.css";
 import CreateProductPage from "./Pages/AdminPages/CreateProductPage/CreateProductPage.jsx";
 import EditProductPage from "./Pages/AdminPages/EditProductPage/EditProductPage.jsx";
+import OrderListPage from "./Pages/AdminPages/OrderListPage/OrderListPage.jsx";
+import ProductListPage from "./Pages/AdminPages/ProductListPages/ProductListPages.jsx";
+import UserEditPage from "./Pages/AdminPages/UserEditPage/UserEditPage.jsx";
+import UserListPage from "./Pages/AdminPages/UserListPage/UserListPage.jsx";
+import CartPage from "./Pages/CartPage/CartPage.jsx";
+import HomePage from "./Pages/HomePage/HomePage.jsx";
+import LoginPage from "./Pages/LoginPage/LoginPage.jsx";
+import OrderPage from "./Pages/OrderPage/OrderPage.jsx";
+import PaymentPage from "./Pages/PaymentPage/PaymentPage.jsx";
+import PlaceOrderPage from "./Pages/PlaceOrderPage/PlaceOrderPage.jsx";
+import ProductPage from "./Pages/ProductPage/ProductPage.jsx";
+import ProfilePage from "./Pages/ProfilePage/ProfilePage.jsx";
+import RegisterPage from "./Pages/RegisterPage/Register.jsx";
+import ShippingPage from "./Pages/ShippingPage/ShippingPage.jsx";
+import store from "./store/store.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

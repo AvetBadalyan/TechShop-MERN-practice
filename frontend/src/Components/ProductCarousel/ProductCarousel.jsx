@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
 import { Carousel, Image } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { useGetTopProductsQuery } from "../../slices/productsApiSlice";
+import { handleImageError } from "../../utils/imageUtils";
 import Message from "./../Message/Message";
 
 const ProductCarousel = () => {
@@ -17,6 +18,7 @@ const ProductCarousel = () => {
               className="carousel-img d-block"
               src={product.image}
               alt={product.name}
+              onError={handleImageError}
               fluid
             />
             <Carousel.Caption className="carousel-caption">

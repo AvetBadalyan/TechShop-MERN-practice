@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Container } from "react-bootstrap";
-import Header from "./Components/Header/Header";
-import Footer from "./Components/Footer/Footer";
 import { Outlet } from "react-router-dom";
+import Footer from "./Components/Footer/Footer";
+import Header from "./Components/Header/Header";
 
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/ReactToastify.css";
 import { logout } from "./slices/authSlice";
 
 const App = () => {

@@ -1,13 +1,19 @@
-import React from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { handleImageError } from "../../utils/imageUtils";
 import Rating from "../Rating/Rating";
 
 const Product = ({ product }) => {
   return (
     <Card className="my-3 p-3 rounded">
       <Link to={`/product/${product._id}`}>
-        <Card.Img src={product.image} variant="top" className="product-image" />
+        <Card.Img
+          src={product.image}
+          alt={product.name}
+          variant="top"
+          className="product-image"
+          onError={handleImageError}
+        />
       </Link>
 
       <Card.Body>

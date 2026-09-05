@@ -1,18 +1,19 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import {
-  Row,
-  Col,
-  ListGroup,
-  Image,
-  Form,
   Button,
   Card,
+  Col,
+  Form,
+  Image,
+  ListGroup,
+  Row,
 } from "react-bootstrap";
 import { FaTrash } from "react-icons/fa";
-import { addToCart, removeFromCart } from "../../slices/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import Message from "../../Components/Message/Message";
-import { generateQuantityOptions } from "./../../utils/cartUtils";
+import { addToCart, removeFromCart } from "../../slices/cartSlice";
+import { handleImageError } from "../../utils/imageUtils";
+import { generateQuantityOptions } from "../../utils/cartUtils";
 
 const CartPage = () => {
   const navigate = useNavigate();
@@ -47,7 +48,13 @@ const CartPage = () => {
               <ListGroup.Item key={item._id}>
                 <Row>
                   <Col md={2}>
-                    <Image src={item.image} alt={item.name} fluid rounded />
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      onError={handleImageError}
+                      fluid
+                      rounded
+                    />
                   </Col>
                   <Col md={3}>
                     <Link to={`/product/${item._id}`}>{item.name}</Link>

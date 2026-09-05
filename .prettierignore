@@ -1,0 +1,9 @@
+node_modules
+frontend/node_modules
+frontend/build
+uploads
+coverage
+package-lock.json
+frontend/package-lock.json
+*.min.js
+frontend/src/assets/styles/bootstrap.custom.css

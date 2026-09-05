@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
+import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { useCreateOrderMutation } from "../../slices/orderApiSlice";
-import { clearCartItems } from "../../slices/cartSlice";
 import CheckoutSteps from "../../Components/CheckoutSteps/CheckoutSteps";
-import Message from "../../Components/Message/Message";
 import Loader from "../../Components/Loader/Loader";
+import Message from "../../Components/Message/Message";
+import { clearCartItems } from "../../slices/cartSlice";
+import { useCreateOrderMutation } from "../../slices/orderApiSlice";
+import { handleImageError } from "../../utils/imageUtils";
 
 const PlaceOrderPage = () => {
   const navigate = useNavigate();
@@ -79,6 +80,7 @@ const PlaceOrderPage = () => {
                           <Image
                             src={item.image}
                             alt={item.name}
+                            onError={handleImageError}
                             fluid
                             rounded
                           />

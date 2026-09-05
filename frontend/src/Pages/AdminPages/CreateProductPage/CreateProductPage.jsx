@@ -1,15 +1,15 @@
 import { useState } from "react";
+import { Button, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { Form, Button } from "react-bootstrap";
 
 import { toast } from "react-toastify";
+import FormContainer from "../../../Components/FormContainer/FormContainer.jsx";
+import Loader from "../../../Components/Loader/Loader.jsx";
+import Message from "../../../Components/Message/Message.jsx";
 import {
   useCreateProductMutation,
   useUploadProductImageMutation,
 } from "../../../slices/productsApiSlice.js";
-import FormContainer from "../../../Components/FormContainer/FormContainer.jsx";
-import Loader from "../../../Components/Loader/Loader.jsx";
-import Message from "../../../Components/Message/Message.jsx";
 
 const CreateProductPage = () => {
   const [name, setName] = useState("");
@@ -54,7 +54,7 @@ const CreateProductPage = () => {
     formData.append("image", e.target.files[0]);
     try {
       const res = await uploadProductImage(formData).unwrap();
-      toast.success(res.message);
+      toast.success(res.message, { toastId: "image-uploaded" });
       setImage(res.image);
     } catch (err) {
       toast.error(err?.data?.message || err.error);
