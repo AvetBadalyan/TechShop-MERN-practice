@@ -117,22 +117,19 @@ npm run data:destroy   # remove all data
 
 ## Deployment (Vercel)
 
-The frontend and backend deploy as **two separate Vercel projects** from the same
-repository.
+The app deploys as a single Vercel project with two services, defined in
+`vercel.json`:
 
-**Backend / API project**
+- **frontend** (`frontend/`, Vite) — the SPA, served for all non-API routes.
+- **backend** (`backend/`) — the Express API, exposed as a serverless function
+  at `backend/api/index.js`; `vercel.json` routes `/api/*` to it.
 
-- Root Directory: repository root
-- Framework Preset: Other
-- Environment Variables: all backend keys above, plus `NODE_ENV=production` and
-  `CLIENT_URL=<frontend URL>`
-- `vercel.json` rewrites every request to the `api/index.js` serverless function.
+Both services share one domain, so the frontend calls the API at a relative
+`/api` path (no separate API URL needed).
 
-**Frontend project**
+**Setup**
 
-- Root Directory: `frontend`
-- Framework Preset: Vite
-- Environment Variable: `VITE_API_URL=<backend API URL>`
-
-After both are live, set the backend's `CLIENT_URL` to the frontend URL and
-redeploy the backend so CORS allows it.
+- Import the repository in Vercel (Root Directory: repository root). Vercel reads
+  the `services` block in `vercel.json` and builds both.
+- Add the environment variables listed above (with `NODE_ENV=production`).
+- Deploy.

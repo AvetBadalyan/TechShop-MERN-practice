@@ -6,13 +6,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,
-    // Proxy API and upload requests to the backend during development,
-    // replacing the CRA "proxy" package.json field.
+    // Proxy API requests to the backend during local development.
     proxy: {
       "/api": "http://localhost:5000",
     },
   },
-  build: {
-    outDir: "build", // keep the same output folder name the backend serves
-  },
+  // Vite defaults to a "dist" output directory, which Vercel's Vite preset
+  // detects automatically.
 });
