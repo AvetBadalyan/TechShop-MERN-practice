@@ -1,6 +1,6 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import User from "../models/userModel.js";
-import generateToken from "../utils/generateToken.js";
+import generateToken, { cookieOptions } from "../utils/generateToken.js";
 
 // @desc    Auth user & get token
 // @route   POST /api/users/auth
@@ -63,7 +63,9 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users/logout
 // @access  Public
 const logoutUser = (req, res) => {
-  res.clearCookie("jwt");
+  // Must clear with the same options the cookie was set with, otherwise the
+  // browser won't match and remove it (esp. SameSite=None; Secure in prod).
+  res.clearCookie("jwt", cookieOptions);
   res.status(200).json({ message: "Logged out successfully" });
 };
 
