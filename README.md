@@ -6,6 +6,14 @@ users, and orders through a dedicated admin area.
 
 **Live demo:** https://avets-techshop.vercel.app
 
+**Demo admin login** (read-only — you can explore the admin area, but changes are
+disabled so the shared demo data stays intact):
+
+```
+Email:    avet@gmail.com
+Password: 123456
+```
+
 - [Tech Stack](#tech-stack)
 - [Features](#features)
 - [Architecture](#architecture)

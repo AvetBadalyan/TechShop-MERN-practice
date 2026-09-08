@@ -15,6 +15,7 @@ import AdminRoute from "./Components/AdminRoute/AdminRoute.jsx";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute.jsx";
 import "./index.css";
 import CreateProductPage from "./Pages/AdminPages/CreateProductPage/CreateProductPage.jsx";
+import DashboardPage from "./Pages/AdminPages/DashboardPage/DashboardPage.jsx";
 import EditProductPage from "./Pages/AdminPages/EditProductPage/EditProductPage.jsx";
 import OrderListPage from "./Pages/AdminPages/OrderListPage/OrderListPage.jsx";
 import ProductListPage from "./Pages/AdminPages/ProductListPages/ProductListPages.jsx";
@@ -52,6 +53,7 @@ const router = createBrowserRouter(
       </Route>
       {/* Admin users */}
       <Route path="" element={<AdminRoute />}>
+        <Route path="/admin/dashboard" element={<DashboardPage />} />
         <Route path="/admin/orderlist" element={<OrderListPage />} />
         <Route path="/admin/productlist" element={<ProductListPage />} />
         <Route

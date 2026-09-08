@@ -12,6 +12,7 @@ import {
 } from "../controllers/userController.js";
 import { admin, protect } from "../middleware/authMiddleware.js";
 import checkObjectId from "../middleware/checkObjectId.js";
+import demoGuard from "../middleware/demoGuard.js";
 import { authLimiter } from "../middleware/rateLimitMiddleware.js";
 import validate from "../middleware/validate.js";
 import {
@@ -35,8 +36,15 @@ router
   .put(protect, validate(updateProfileSchema), updateUserProfile);
 router
   .route("/:id")
-  .delete(protect, admin, checkObjectId, deleteUser)
+  .delete(protect, admin, demoGuard, checkObjectId, deleteUser)
   .get(protect, admin, checkObjectId, getUserById)
-  .put(protect, admin, checkObjectId, validate(updateUserSchema), updateUser);
+  .put(
+    protect,
+    admin,
+    demoGuard,
+    checkObjectId,
+    validate(updateUserSchema),
+    updateUser
+  );
 
 export default router;

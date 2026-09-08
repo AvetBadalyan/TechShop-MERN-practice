@@ -5,24 +5,43 @@ import Product from "../models/productModel.js";
 // @route   GET /api/products
 // @access  Public
 const getProducts = asyncHandler(async (req, res) => {
-  const pageSize = process.env.PAGINATION_LIMIT;
+  const pageSize = Number(process.env.PAGINATION_LIMIT) || 8;
   const page = Number(req.query.pageNumber) || 1;
 
+  // Search by name (case-insensitive)
   const keyword = req.query.keyword
-    ? {
-        name: {
-          $regex: req.query.keyword,
-          $options: "i",
-        },
-      }
+    ? { name: { $regex: req.query.keyword, $options: "i" } }
     : {};
 
-  const count = await Product.countDocuments({ ...keyword });
-  const products = await Product.find({ ...keyword })
+  // Optional category filter
+  const category = req.query.category ? { category: req.query.category } : {};
+
+  const filter = { ...keyword, ...category };
+
+  // Sorting: map a friendly query value to a Mongo sort object.
+  const sortOptions = {
+    "price-asc": { price: 1 },
+    "price-desc": { price: -1 },
+    "rating-desc": { rating: -1 },
+    newest: { createdAt: -1 },
+  };
+  const sort = sortOptions[req.query.sortBy] || {};
+
+  const count = await Product.countDocuments(filter);
+  const products = await Product.find(filter)
+    .sort(sort)
     .limit(pageSize)
     .skip(pageSize * (page - 1));
 
   res.json({ products, page, pages: Math.ceil(count / pageSize) });
+});
+
+// @desc    Get the list of distinct product categories (for filter UI)
+// @route   GET /api/products/categories
+// @access  Public
+const getCategories = asyncHandler(async (req, res) => {
+  const categories = await Product.distinct("category");
+  res.json(categories);
 });
 
 // @desc    Fetch single product
@@ -153,11 +172,12 @@ const getTopProducts = asyncHandler(async (req, res) => {
 });
 
 export {
-  getProducts,
-  getProductById,
   createProduct,
-  updateProduct,
-  deleteProduct,
   createProductReview,
+  deleteProduct,
+  getCategories,
+  getProductById,
+  getProducts,
   getTopProducts,
+  updateProduct,
 };

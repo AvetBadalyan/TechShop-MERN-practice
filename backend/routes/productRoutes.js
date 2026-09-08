@@ -3,6 +3,7 @@ import {
   createProduct,
   createProductReview,
   deleteProduct,
+  getCategories,
   getProductById,
   getProducts,
   getTopProducts,
@@ -10,6 +11,7 @@ import {
 } from "../controllers/productController.js";
 import { admin, protect } from "../middleware/authMiddleware.js";
 import checkObjectId from "../middleware/checkObjectId.js";
+import demoGuard from "../middleware/demoGuard.js";
 import validate from "../middleware/validate.js";
 import {
   productSchema,
@@ -20,13 +22,21 @@ const router = express.Router();
 router
   .route("/")
   .get(getProducts)
-  .post(protect, admin, validate(productSchema), createProduct);
+  .post(protect, admin, demoGuard, validate(productSchema), createProduct);
 router.get("/top", getTopProducts);
+router.get("/categories", getCategories);
 router
   .route("/:id")
   .get(checkObjectId, getProductById)
-  .put(protect, admin, checkObjectId, validate(productSchema), updateProduct)
-  .delete(protect, admin, checkObjectId, deleteProduct);
+  .put(
+    protect,
+    admin,
+    demoGuard,
+    checkObjectId,
+    validate(productSchema),
+    updateProduct
+  )
+  .delete(protect, admin, demoGuard, checkObjectId, deleteProduct);
 router
   .route("/:id/reviews")
   .post(protect, checkObjectId, validate(reviewSchema), createProductReview);

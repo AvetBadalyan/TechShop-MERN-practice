@@ -23,8 +23,8 @@ const Paginate = ({ pages, page, isAdmin = false, keyword = "" }) => {
 
   return (
     pages > 1 && (
-      <Pagination>
-        <Pagination>{paginationItems}</Pagination>
+      <Pagination className="justify-content-center mt-4">
+        {paginationItems}
       </Pagination>
     )
   );

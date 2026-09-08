@@ -5,7 +5,7 @@ const products = [
     description:
       "Play at home, play anywhere with the versatile Nintendo Switch console. Enjoy single and multiplayer gaming experiences, whether you're at home or on the go.",
     brand: "Nintendo",
-    category: "Electronics",
+    category: "Gaming",
     price: 299.99,
     countInStock: 9,
     rating: 0,
@@ -17,7 +17,7 @@ const products = [
     description:
       "Immerse yourself in a cinematic experience with this Samsung 4K UHD Smart TV. Enjoy stunning clarity, vibrant colors, and smart features for seamless entertainment.",
     brand: "Samsung",
-    category: "Electronics",
+    category: "TV & Home",
     price: 899.99,
     countInStock: 6,
     rating: 0,
@@ -29,7 +29,7 @@ const products = [
     description:
       "Capture every adventure in stunning detail with the GoPro Hero 10 Black. With advanced stabilization, 5K video, and improved low-light performance, it's the ultimate action camera.",
     brand: "GoPro",
-    category: "Electronics",
+    category: "Cameras",
     price: 499.99,
     countInStock: 4,
     rating: 0,
@@ -41,7 +41,7 @@ const products = [
     description:
       "Experience immersive gaming and productivity with the LG UltraWide Curved Monitor. With a 34-inch display and QHD resolution, it offers crisp visuals and multitasking capabilities.",
     brand: "LG",
-    category: "Electronics",
+    category: "Computers",
     price: 699.99,
     countInStock: 8,
     rating: 0,
@@ -53,7 +53,7 @@ const products = [
     description:
       "Track your fitness goals and stay connected with the Fitbit Versa 3 Fitness Smartwatch. With built-in GPS, heart rate monitoring, and voice assistant, it's your ultimate fitness companion.",
     brand: "Fitbit",
-    category: "Electronics",
+    category: "Wearables",
     price: 229.99,
     countInStock: 10,
     rating: 0,
@@ -65,7 +65,7 @@ const products = [
     description:
       "Never run out of battery again with the Anker PowerCore 26800 Portable Charger. With a massive capacity, it can charge your devices multiple times on the go.",
     brand: "Anker",
-    category: "Electronics",
+    category: "Accessories",
     price: 59.99,
     countInStock: 15,
     rating: 0,
@@ -77,7 +77,7 @@ const products = [
     description:
       "Dominate your gaming sessions with the Razer BlackWidow Elite Mechanical Gaming Keyboard. Featuring Razer Mechanical Switches and customizable RGB lighting, it offers precision and style.",
     brand: "Razer",
-    category: "Electronics",
+    category: "Gaming",
     price: 169.99,
     countInStock: 5,
     rating: 0,
@@ -89,7 +89,7 @@ const products = [
     description:
       "Take your music anywhere with the JBL Flip 5 Waterproof Portable Speaker. With powerful sound and IPX7 waterproof rating, it's perfect for outdoor adventures.",
     brand: "JBL",
-    category: "Electronics",
+    category: "Audio",
     price: 119.99,
     countInStock: 12,
     rating: 0,
@@ -101,7 +101,7 @@ const products = [
     description:
       "Experience the versatility of the Microsoft Surface Pro 8. With a detachable keyboard and touchscreen display, it adapts to your workflow whether you're working or creating.",
     brand: "Microsoft",
-    category: "Electronics",
+    category: "Computers",
     price: 1299.99,
     countInStock: 6,
     rating: 0,
@@ -113,7 +113,7 @@ const products = [
     description:
       "Maximize your running performance with the Garmin Forerunner 945 GPS Running Watch. With advanced tracking features and built-in music storage, it's the ultimate runner's companion.",
     brand: "Garmin",
-    category: "Electronics",
+    category: "Wearables",
     price: 599.99,
     countInStock: 9,
     rating: 0,
@@ -125,7 +125,7 @@ const products = [
     description:
       "Capture breathtaking aerial shots with the DJI Mavic Air 2 Drone. With 4K video, intelligent shooting modes, and up to 34 minutes of flight time, it's the ultimate aerial photography tool.",
     brand: "DJI",
-    category: "Electronics",
+    category: "Cameras",
     price: 799.99,
     countInStock: 3,
     rating: 0,
@@ -137,7 +137,7 @@ const products = [
     description:
       "Stay connected and track your fitness goals with the Apple Watch Series 7. With an always-on Retina display and advanced health monitoring features, it's your ultimate wearable companion.",
     brand: "Apple",
-    category: "Electronics",
+    category: "Wearables",
     price: 399.99,
     countInStock: 10,
     rating: 0,
@@ -149,7 +149,7 @@ const products = [
     description:
       "Experience next-gen gaming with the Xbox Series X Gaming Console. With powerful hardware, fast load times, and stunning graphics, it's the ultimate gaming machine.",
     brand: "Microsoft",
-    category: "Electronics",
+    category: "Gaming",
     price: 499.99,
     countInStock: 8,
     rating: 0,
@@ -161,7 +161,7 @@ const products = [
     description:
       "Take your gaming to the next level with the ASUS ROG Strix GeForce RTX 3080 Graphics Card. With cutting-edge technology and powerful performance, it delivers stunning visuals and smooth gameplay.",
     brand: "ASUS",
-    category: "Electronics",
+    category: "Computers",
     price: 999.99,
     countInStock: 5,
     rating: 0,
@@ -173,7 +173,7 @@ const products = [
     description:
       "Immerse yourself in superior sound quality with the Bowers & Wilkins PX7 Wireless Over-Ear Headphones. With adaptive noise cancellation and high-fidelity audio, it's the perfect audio companion.",
     brand: "Bowers & Wilkins",
-    category: "Electronics",
+    category: "Audio",
     price: 399.99,
     countInStock: 6,
     rating: 0,
@@ -185,20 +185,19 @@ const products = [
     description:
       "Unleash your creativity with the Nikon D850 DSLR Camera. With a 45.7MP sensor and 4K video capabilities, it delivers stunning image quality and performance for photographers and videographers.",
     brand: "Nikon",
-    category: "Electronics",
+    category: "Cameras",
     price: 2999.99,
     countInStock: 3,
     rating: 0,
     numReviews: 0,
   },
-
   {
     name: "Acer Predator XB273K 4K Gaming Monitor",
     image: "/images/acer_monitor.jpg",
     description:
       "Enter the world of 4K gaming with the Acer Predator XB273K Gaming Monitor. With G-Sync technology and HDR support, it delivers smooth gameplay and stunning visuals.",
     brand: "Acer",
-    category: "Electronics",
+    category: "Computers",
     price: 799.99,
     countInStock: 6,
     rating: 0,
@@ -210,7 +209,7 @@ const products = [
     description:
       "Stream your favorite shows and movies in stunning 4K HDR with the Roku Ultra Streaming Media Player. With a powerful quad-core processor, it delivers smooth streaming and intuitive navigation.",
     brand: "Roku",
-    category: "Electronics",
+    category: "TV & Home",
     price: 99.99,
     countInStock: 11,
     rating: 0,
@@ -222,7 +221,7 @@ const products = [
     description:
       "Bluetooth technology lets you connect it with compatible devices wirelessly. High-quality AAC audio offers immersive listening experience. Built-in microphone allows you to take calls while working.",
     brand: "Apple",
-    category: "Electronics",
+    category: "Audio",
     price: 89.99,
     countInStock: 10,
     rating: 0,
@@ -234,7 +233,7 @@ const products = [
     description:
       "Introducing the iPhone 11 Pro. A transformative triple-camera system that adds tons of capability without complexity. An unprecedented leap in battery life.",
     brand: "Apple",
-    category: "Electronics",
+    category: "Phones",
     price: 599.99,
     countInStock: 7,
     rating: 0,
@@ -246,7 +245,7 @@ const products = [
     description:
       "Characterized by versatile imaging specs, the Canon EOS 80D further clarifies itself using a pair of robust focusing systems and an intuitive design.",
     brand: "Canon",
-    category: "Electronics",
+    category: "Cameras",
     price: 929.99,
     countInStock: 5,
     rating: 0,
@@ -258,7 +257,7 @@ const products = [
     description:
       "The ultimate home entertainment center starts with PlayStation. Whether you are into gaming, HD movies, television, music.",
     brand: "Sony",
-    category: "Electronics",
+    category: "Gaming",
     price: 399.99,
     countInStock: 11,
     rating: 0,
@@ -270,7 +269,7 @@ const products = [
     description:
       "Get a better handle on your games with this Logitech LIGHTSYNC gaming mouse. The six programmable buttons allow customization for a smooth playing experience.",
     brand: "Logitech",
-    category: "Electronics",
+    category: "Gaming",
     price: 49.99,
     countInStock: 7,
     rating: 0,
@@ -282,7 +281,7 @@ const products = [
     description:
       "Meet Echo Dot - Our most popular smart speaker with a fabric design. It is our most compact smart speaker that fits perfectly into small space.",
     brand: "Amazon",
-    category: "Electronics",
+    category: "TV & Home",
     price: 29.99,
     countInStock: 0,
     rating: 0,
@@ -294,7 +293,7 @@ const products = [
     description:
       "The ultimate smartphone experience, with a camera so advanced it's like shooting with a professional camera.",
     brand: "Samsung",
-    category: "Electronics",
+    category: "Phones",
     price: 1199.99,
     countInStock: 3,
     rating: 0,
@@ -306,7 +305,7 @@ const products = [
     description:
       "The XPS 13 has been remastered for 2022 with 11th Gen Intel® Core™ processors and an InfinityEdge 13.4” display for the ultimate performance and portability.",
     brand: "Dell",
-    category: "Electronics",
+    category: "Computers",
     price: 1299.99,
     countInStock: 8,
     rating: 0,
@@ -318,9 +317,81 @@ const products = [
     description:
       "Engineered with breakthrough acoustic innovations, these headphones offer powerful, clear, and deep sound. Built with premium materials and advanced ergonomics for a comfortable fit.",
     brand: "Bose",
-    category: "Electronics",
+    category: "Audio",
     price: 329.99,
     countInStock: 6,
+    rating: 0,
+    numReviews: 0,
+  },
+  {
+    name: "Xiaomi Redmi Note 15 Pro",
+    image: "/images/xiaomi_redmi_note15.jpg",
+    description:
+      "A feature-packed mid-range phone with a bright AMOLED display, fast charging, and a versatile triple-camera system that punches well above its price.",
+    brand: "Xiaomi",
+    category: "Phones",
+    price: 349.99,
+    countInStock: 14,
+    rating: 0,
+    numReviews: 0,
+  },
+  {
+    name: "Samsung Galaxy A71",
+    image: "/images/samsung_galaxy_a71.jpg",
+    description:
+      "A sleek everyday smartphone with a large Super AMOLED screen, all-day battery, and a capable quad-camera setup for crisp photos and video.",
+    brand: "Samsung",
+    category: "Phones",
+    price: 399.99,
+    countInStock: 9,
+    rating: 0,
+    numReviews: 0,
+  },
+  {
+    name: "Google Pixel 8",
+    image: "/images/google_pixel8.jpg",
+    description:
+      "Google's flagship with the Tensor G3 chip, an outstanding camera powered by computational photography, and years of guaranteed software updates.",
+    brand: "Google",
+    category: "Phones",
+    price: 699.99,
+    countInStock: 7,
+    rating: 0,
+    numReviews: 0,
+  },
+  {
+    name: "OnePlus 12",
+    image: "/images/oneplus_12.jpg",
+    description:
+      "Flagship-grade performance with a smooth 120Hz display, blazing-fast charging, and a clean, responsive software experience.",
+    brand: "OnePlus",
+    category: "Phones",
+    price: 799.99,
+    countInStock: 5,
+    rating: 0,
+    numReviews: 0,
+  },
+  {
+    name: "iPhone 17 Pro",
+    image: "/images/iphone_17_pro.jpg",
+    description:
+      "Apple's latest flagship featuring the A19 Pro chip, ProMotion display, and an advanced camera system with 5x optical zoom for stunning photos and videos.",
+    brand: "Apple",
+    category: "Phones",
+    price: 1199.99,
+    countInStock: 6,
+    rating: 0,
+    numReviews: 0,
+  },
+  {
+    name: "Samsung Galaxy S25",
+    image: "/images/samsung_galaxy_s25.jpg",
+    description:
+      "Samsung's premium smartphone with Galaxy AI features, a brilliant Dynamic AMOLED display, and pro-grade camera capabilities in a sleek titanium design.",
+    brand: "Samsung",
+    category: "Phones",
+    price: 899.99,
+    countInStock: 8,
     rating: 0,
     numReviews: 0,
   },

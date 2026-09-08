@@ -1,6 +1,7 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import Order from "../models/orderModel.js";
 import Product from "../models/productModel.js";
+import User from "../models/userModel.js";
 import { calculatePrices } from "../utils/calculatePrices.js";
 import { checkIfNewTransaction, verifyPayPalPayment } from "../utils/paypal.js";
 
@@ -141,11 +142,70 @@ const getOrders = asyncHandler(async (req, res) => {
   res.json(orders);
 });
 
+// @desc    Get dashboard summary stats for the admin
+// @route   GET /api/orders/dashboard
+// @access  Private/Admin
+const getDashboardStats = asyncHandler(async (req, res) => {
+  // Top-level counts
+  const [productCount, userCount, orders] = await Promise.all([
+    Product.countDocuments(),
+    User.countDocuments(),
+    Order.find({}),
+  ]);
+
+  const orderCount = orders.length;
+  const totalSales = orders.reduce((sum, order) => sum + order.totalPrice, 0);
+  const paidCount = orders.filter((o) => o.isPaid).length;
+  const deliveredCount = orders.filter((o) => o.isDelivered).length;
+
+  // Sales grouped by day (last 7 days) for the chart
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+  sevenDaysAgo.setHours(0, 0, 0, 0);
+
+  const salesByDay = await Order.aggregate([
+    { $match: { createdAt: { $gte: sevenDaysAgo } } },
+    {
+      $group: {
+        _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+        total: { $sum: "$totalPrice" },
+        orders: { $sum: 1 },
+      },
+    },
+    { $sort: { _id: 1 } },
+  ]);
+
+  // Top 5 best-selling products by quantity ordered
+  const topProducts = await Order.aggregate([
+    { $unwind: "$orderItems" },
+    {
+      $group: {
+        _id: "$orderItems.name",
+        unitsSold: { $sum: "$orderItems.quantity" },
+      },
+    },
+    { $sort: { unitsSold: -1 } },
+    { $limit: 5 },
+  ]);
+
+  res.json({
+    totalSales,
+    orderCount,
+    productCount,
+    userCount,
+    paidCount,
+    deliveredCount,
+    salesByDay,
+    topProducts,
+  });
+});
+
 export {
   addOrderItems,
+  getDashboardStats,
   getMyOrders,
   getOrderById,
-  updateOrderToPaid,
-  updateOrderToDelivered,
   getOrders,
+  updateOrderToDelivered,
+  updateOrderToPaid,
 };

@@ -4,6 +4,7 @@ import path from "path";
 import streamifier from "streamifier";
 import getCloudinary from "../config/cloudinary.js";
 import { admin, protect } from "../middleware/authMiddleware.js";
+import demoGuard from "../middleware/demoGuard.js";
 
 const router = express.Router();
 
@@ -45,7 +46,7 @@ const uploadToCloudinary = (buffer) =>
     streamifier.createReadStream(buffer).pipe(stream);
   });
 
-router.post("/", protect, admin, (req, res) => {
+router.post("/", protect, admin, demoGuard, (req, res) => {
   uploadSingleImage(req, res, async function (err) {
     if (err) {
       const message =
