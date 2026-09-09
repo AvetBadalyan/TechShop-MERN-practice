@@ -1,0 +1,261 @@
+/* ============================================================
+   Dark theme overrides for Bootstrap components.
+   Imported AFTER bootstrap.custom.css so these win.
+   Uses the design tokens defined in src/index.css.
+   ============================================================ */
+
+/* ---------- Cards ---------- */
+.card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: var(--radius);
+}
+
+/* ---------- Buttons ---------- */
+.btn-primary {
+  --bs-btn-bg: var(--accent);
+  --bs-btn-border-color: var(--accent);
+  --bs-btn-hover-bg: var(--accent-hover);
+  --bs-btn-hover-border-color: var(--accent-hover);
+  --bs-btn-active-bg: var(--accent-hover);
+  --bs-btn-active-border-color: var(--accent-hover);
+  --bs-btn-disabled-bg: var(--accent);
+  --bs-btn-disabled-border-color: var(--accent);
+  font-weight: 600;
+  box-shadow: 0 4px 14px var(--accent-glow);
+  transition:
+    transform var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease),
+    background-color var(--dur) var(--ease);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px var(--accent-glow);
+}
+
+.btn-primary:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px var(--accent-glow),
+    0 4px 14px var(--accent-glow);
+}
+
+.btn-light {
+  --bs-btn-bg: var(--surface-hover);
+  --bs-btn-border-color: var(--border-strong);
+  --bs-btn-color: var(--text);
+  --bs-btn-hover-bg: var(--surface-hover);
+  --bs-btn-hover-border-color: var(--border-strong);
+  --bs-btn-hover-color: var(--text);
+}
+
+.btn-dark {
+  --bs-btn-bg: var(--surface-hover);
+  --bs-btn-border-color: var(--border-strong);
+  --bs-btn-hover-bg: var(--surface-hover);
+}
+
+/* Shared focus state for secondary buttons */
+.btn-light:focus-visible,
+.btn-dark:focus-visible,
+.btn-outline-primary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--accent-hover);
+  --bs-btn-border-color: var(--accent);
+  --bs-btn-hover-bg: var(--accent);
+  --bs-btn-hover-border-color: var(--accent);
+  --bs-btn-hover-color: #fff;
+}
+
+/* ---------- Forms ---------- */
+.form-control,
+.form-select {
+  background-color: var(--surface-hover);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  transition:
+    border-color var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+}
+
+.form-control::placeholder {
+  color: var(--text-faint);
+  opacity: 1; /* Firefox lowers placeholder opacity by default */
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: var(--surface-hover);
+  color: var(--text);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 0.2rem var(--accent-glow);
+}
+
+.form-select option {
+  background-color: var(--surface-hover);
+  color: var(--text);
+}
+
+.form-label {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.input-group-text {
+  background-color: var(--surface-hover);
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+
+/* ---------- Tables ---------- */
+.table {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--text);
+  --bs-table-border-color: var(--border);
+  --bs-table-striped-bg: var(--surface);
+  --bs-table-striped-color: var(--text);
+  --bs-table-hover-bg: var(--surface-hover);
+  --bs-table-hover-color: var(--text);
+  color: var(--text);
+}
+
+.table > thead {
+  color: var(--text-muted);
+  border-bottom: 2px solid var(--border-strong);
+}
+
+/* Comfortable cell padding — enough to breathe without wasting space */
+.table > :not(caption) > * > * {
+  padding: 0.85rem 0.75rem;
+  vertical-align: middle;
+}
+
+/* Action column: never wrap, consistent min-width for buttons */
+.table td:last-child,
+.table th:last-child {
+  white-space: nowrap;
+  min-width: 100px;
+}
+
+/* ---------- List groups ---------- */
+.list-group-item {
+  background-color: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+/* ---------- Pagination ---------- */
+.page-link {
+  background-color: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+  transition: all var(--dur) var(--ease);
+}
+
+.page-link:hover {
+  background-color: var(--surface-hover);
+  color: var(--accent-hover);
+}
+
+.page-link:focus {
+  box-shadow: 0 0 0 2px var(--accent-glow);
+  z-index: 3;
+}
+
+.page-item.active .page-link {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* ---------- Dropdowns ---------- */
+.dropdown-menu {
+  background-color: var(--surface-hover);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.dropdown-item {
+  color: var(--text);
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: var(--surface-hover);
+  color: var(--accent-hover);
+}
+
+.dropdown-divider {
+  border-color: var(--border-strong);
+  opacity: 1;
+}
+
+/* ---------- Alerts / messages ---------- */
+.alert-danger {
+  background-color: rgba(248, 113, 113, 0.12);
+  border-color: rgba(248, 113, 113, 0.35);
+  color: #fecaca;
+}
+
+.alert-success {
+  background-color: rgba(52, 211, 153, 0.12);
+  border-color: rgba(52, 211, 153, 0.35);
+  color: #bbf7d0;
+}
+
+.alert-info {
+  background-color: rgba(34, 211, 238, 0.12);
+  border-color: rgba(34, 211, 238, 0.35);
+  color: #a5f3fc;
+}
+
+/* ---------- Badges ---------- */
+.badge.bg-secondary {
+  background-color: var(--surface-hover) !important;
+  color: var(--text-muted);
+}
+
+/* ---------- Modals ---------- */
+.modal-content {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+/* ---------- Text color helpers ---------- */
+.text-dark {
+  color: var(--text) !important;
+}
+
+/* Selection */
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Scrollbar (webkit) */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface-hover);
+  border-radius: var(--radius-pill);
+  border: 3px solid var(--bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-strong);
+}

@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { Button, Modal, Table } from "react-bootstrap";
+import { FaCheck, FaEdit, FaTimes, FaTrash } from "react-icons/fa";
 import { LinkContainer } from "react-router-bootstrap";
-import { Table, Button, Modal } from "react-bootstrap";
-import { FaTrash, FaEdit, FaCheck, FaTimes } from "react-icons/fa";
+
+import Loader from "../../../Components/Loader/Loader";
+import Message from "../../../Components/Message/Message";
 import {
   useDeleteUserMutation,
   useGetUsersQuery,
 } from "../../../slices/usersApiSlice";
-import Loader from "../../../Components/Loader/Loader";
-import Message from "../../../Components/Message/Message";
-import { toast } from "react-toastify";
+import { getErrorMessage, showErrorToast } from "../../../utils/errorUtils";
 
 const UserListPage = () => {
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();
@@ -24,11 +25,11 @@ const UserListPage = () => {
 
   const handleDeleteConfirm = async () => {
     try {
-      await deleteUser(userIdToDelete);
+      await deleteUser(userIdToDelete).unwrap();
       refetch();
       setShowDeleteModal(false);
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      showErrorToast(err);
     }
   };
 
@@ -39,64 +40,55 @@ const UserListPage = () => {
   return (
     <>
       <h1>Users</h1>
-      {loadingDelete && (
-        <div className="loader-container">
-          <Loader />
-        </div>
-      )}
+      {loadingDelete && <Loader />}
       {isLoading ? (
-        <div className="loader-container">
-          <Loader />
-        </div>
+        <Loader />
       ) : error ? (
-        <Message variant="danger">
-          {error?.data?.message || error.error}
-        </Message>
+        <Message variant="danger">{getErrorMessage(error)}</Message>
       ) : (
-        <Table striped bordered hover responsive className="table-sm">
+        <Table striped hover responsive>
           <thead>
             <tr>
-              <th>ID</th>
-              <th>NAME</th>
-              <th>EMAIL</th>
-              <th>ADMIN</th>
-              <th></th>
+              <th>User ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th className="text-center">Admin</th>
+              <th className="text-end">Actions</th>
             </tr>
           </thead>
           <tbody>
             {users.map((user) => (
               <tr key={user._id}>
-                <td>{user._id}</td>
+                <td>
+                  <span className="id-cell">…{user._id.slice(-8)}</span>
+                </td>
                 <td>{user.name}</td>
                 <td>
                   <a href={`mailto:${user.email}`}>{user.email}</a>
                 </td>
-                <td>
+                <td className="text-center">
                   {user.isAdmin ? (
-                    <FaCheck style={{ color: "green" }} />
+                    <FaCheck className="text-success" />
                   ) : (
-                    <FaTimes style={{ color: "red" }} />
+                    <FaTimes className="text-danger" />
                   )}
                 </td>
-                <td>
+                <td className="text-end">
                   {!user.isAdmin && (
-                    <>
-                      <LinkContainer
-                        to={`/admin/user/${user._id}/edit`}
-                        style={{ marginRight: "10px" }}
-                      >
-                        <Button variant="light" className="btn-sm">
+                    <div className="d-flex justify-content-end gap-2">
+                      <LinkContainer to={`/admin/user/${user._id}/edit`}>
+                        <Button variant="light" size="sm">
                           <FaEdit />
                         </Button>
                       </LinkContainer>
                       <Button
                         variant="danger"
-                        className="btn-sm btn btn-danger"
+                        size="sm"
                         onClick={() => handleDeleteModal(user._id)}
                       >
-                        <FaTrash style={{ color: "white" }} />
+                        <FaTrash />
                       </Button>
-                    </>
+                    </div>
                   )}
                 </td>
               </tr>
@@ -104,7 +96,7 @@ const UserListPage = () => {
           </tbody>
         </Table>
       )}
-      {/* Delete Confirmation Modal */}
+
       <Modal show={showDeleteModal} onHide={handleDeleteCancel}>
         <Modal.Header closeButton>
           <Modal.Title>Delete Confirmation</Modal.Title>

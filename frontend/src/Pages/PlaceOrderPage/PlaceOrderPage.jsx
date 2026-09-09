@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import CheckoutSteps from "../../Components/CheckoutSteps/CheckoutSteps";
 import Loader from "../../Components/Loader/Loader";
 import Message from "../../Components/Message/Message";
 import { clearCartItems } from "../../slices/cartSlice";
 import { useCreateOrderMutation } from "../../slices/orderApiSlice";
+import { showErrorToast } from "../../utils/errorUtils";
 import { handleImageError } from "../../utils/imageUtils";
 
 const PlaceOrderPage = () => {
@@ -15,7 +15,7 @@ const PlaceOrderPage = () => {
 
   const cart = useSelector((state) => state.cart);
 
-  const [createOrder, { isLoading, error }] = useCreateOrderMutation();
+  const [createOrder, { isLoading }] = useCreateOrderMutation();
 
   useEffect(() => {
     if (!cart.shippingAddress.address) {
@@ -41,7 +41,7 @@ const PlaceOrderPage = () => {
       dispatch(clearCartItems());
       navigate(`/order/${res._id}`);
     } catch (err) {
-      toast.error(err);
+      showErrorToast(err);
     }
   };
 
@@ -73,15 +73,15 @@ const PlaceOrderPage = () => {
                 <Message>Your cart is empty</Message>
               ) : (
                 <ListGroup variant="flush">
-                  {cart.cartItems.map((item, index) => (
-                    <ListGroup.Item key={index}>
-                      <Row>
-                        <Col md={1}>
+                  {cart.cartItems.map((item) => (
+                    <ListGroup.Item key={item.product}>
+                      <Row className="align-items-center">
+                        <Col xs={3} md={2}>
                           <Image
                             src={item.image}
                             alt={item.name}
                             onError={handleImageError}
-                            fluid
+                            className="order-item-thumb"
                             rounded
                           />
                         </Col>
@@ -92,7 +92,7 @@ const PlaceOrderPage = () => {
                         </Col>
                         <Col md={4}>
                           {item.quantity} x ${item.price} = $
-                          {(item.quantity * (item.price * 100)) / 100}
+                          {(item.quantity * item.price).toFixed(2)}
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -133,24 +133,15 @@ const PlaceOrderPage = () => {
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
-                {error && (
-                  <Message variant="danger">{error?.data?.message}</Message>
-                )}
-              </ListGroup.Item>
-              <ListGroup.Item>
                 <Button
                   type="button"
                   className="btn-block"
-                  disabled={cart.cartItems === 0}
+                  disabled={cart.cartItems.length === 0}
                   onClick={placeOrderHandler}
                 >
                   Place Order
                 </Button>
-                {isLoading && (
-                  <div className="loader-container">
-                    <Loader />
-                  </div>
-                )}
+                {isLoading && <Loader />}
               </ListGroup.Item>
             </ListGroup>
           </Card>

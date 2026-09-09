@@ -1,105 +1,326 @@
+/* ============================================================
+   TechShop Design System — "Midnight Tech"
+   Dark theme with a violet -> cyan accent.
+   ============================================================ */
+
+:root {
+  /* --- Surfaces (near-black, Force/Kick style) --- */
+  --bg: #0a0b0f; /* page background (near-black) */
+  --surface: #14161d; /* cards, navbar, panels */
+  --surface-hover: #1e212b; /* inputs + hovered/raised surfaces */
+  --border: #2a2e3a; /* hairline borders */
+  --border-strong: #3d4353;
+
+  /* --- Text --- */
+  --text: #f2f3f7; /* primary text (crisp white) */
+  --text-muted: #a7adba; /* secondary text (brighter for readability) */
+  --text-faint: #7c828f; /* placeholders / disabled (readable) */
+
+  /* --- Accent: violet primary; cyan used ONLY inside the gradient --- */
+  --accent: #a855f7; /* electric violet — the ONE solid accent */
+  --accent-hover: #bd82ff;
+  --accent-2: #22d3ee; /* cyan — gradient partner only, not used solo */
+  --accent-gradient: linear-gradient(135deg, #a855f7 0%, #22d3ee 100%);
+  --accent-glow: rgba(168, 85, 247, 0.4);
+
+  /* --- Semantic (used ONLY for meaning) --- */
+  --warning: #fbbf24; /* low-stock badge */
+  --star: #fbbf24; /* rating stars */
+
+  /* --- Radii (2 sizes) --- */
+  --radius-sm: 8px; /* inputs, badges */
+  --radius: 14px; /* cards, panels */
+  --radius-pill: 999px;
+
+  /* --- Shadows --- */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.55);
+
+  /* --- Motion --- */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 0.25s;
+
+  /* --- Typography --- */
+  --font-body:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+
+  /* Font sizes (root stays 16px so Bootstrap is unaffected) */
+  --fs-xs: 0.75rem; /* 12px — labels, badges, eyebrows */
+  --fs-sm: 0.875rem; /* 14px — small text, captions */
+  --fs-base: 1rem; /* 16px — body, meta */
+  --fs-md: 1.125rem; /* 18px — card titles */
+  --fs-lg: 1.375rem; /* 22px — prices, subheadings */
+  --fs-xl: 1.75rem; /* 28px — section headings */
+  --fs-2xl: 2.5rem; /* 40px — hero heading */
+
+  /* Line heights */
+  --lh-tight: 1.1; /* headings */
+  --lh-snug: 1.3; /* card titles, compact text */
+  --lh-normal: 1.5; /* body text */
+  --lh-relaxed: 1.625; /* long-form content */
+
+  /* Spacing scale (for consistency) */
+  --space-xs: 0.25rem; /* 4px */
+  --space-sm: 0.5rem; /* 8px */
+  --space-md: 1rem; /* 16px */
+  --space-lg: 1.5rem; /* 24px */
+  --space-xl: 2rem; /* 32px */
+  --space-2xl: 3rem; /* 48px */
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: var(--lh-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Ambient accent glow behind the top of the page */
+body::before {
+  content: "";
+  position: fixed;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 600px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(168, 85, 247, 0.2) 0%,
+    rgba(34, 211, 238, 0.06) 42%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+.h1,
+.h2,
+.h3 {
+  font-family: var(--font-display);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+/* Page-level heading spacing consistency */
+h1 {
+  margin-bottom: var(--space-lg);
+}
+
+h2 {
+  margin-bottom: var(--space-md);
+}
+
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family:
+    source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 main {
   min-height: 80vh;
+  position: relative;
+  z-index: 1;
 }
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color var(--dur) var(--ease);
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ============================================================
+   Text / links inside cards default to theme colors
+   ============================================================ */
+
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+/* ============================================================
+   Rating stars
+   ============================================================ */
 
 .rating span {
   margin: 0.1rem;
 }
 
 .rating svg {
-  color: #f8e825;
+  color: var(--star);
 }
 
 .rating-text {
-  font-size: 0.8rem;
+  font-size: var(--fs-xs); /* 12px */
   font-weight: 600;
   padding-left: 0.5rem;
+  color: var(--text-muted);
 }
 
-.product-title {
-  height: 2.5em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+/* ============================================================
+   Tables (dark)
+   ============================================================ */
+
+/* Monospaced, de-emphasized ID cell used in admin/profile order & list tables */
+.id-cell {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  font-family:
+    source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-.product-image {
-  max-height: 210px;
-  object-fit: cover;
+/* Order-item thumbnail (Order & Place Order pages). Fixed square box with a
+   contained image so products of any aspect ratio stay fully visible. */
+.order-item-thumb {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  background: var(--surface-hover);
+  padding: var(--space-sm);
 }
 
-table td,
-table th {
-  text-align: center;
-}
+/* ============================================================
+   Reviews block
+   ============================================================ */
 
 .review {
-  margin-top: 30px;
+  margin-top: var(--space-xl);
 }
 
 .review h2 {
-  font-size: 24px;
-  background: #f4f4f4;
-  padding: 10px;
-  border: 1px solid #ddd;
+  font-size: var(--fs-lg);
+  background: var(--surface-hover);
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
 }
 
 .review button {
-  margin-top: 10px;
+  margin-top: var(--space-sm);
 }
 
-.carousel-caption {
-  position: absolute;
-  width: 100%;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.carousel-img {
-  max-height: 500px;
-  margin: 0 auto;
-}
+/* ============================================================
+   Loader
+   ============================================================ */
 
 .loader-container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  width: 100%;
 }
+
+.loader-spinner {
+  width: 80px;
+  height: 80px;
+  color: var(--accent);
+}
+
+/* ============================================================
+   Search form
+   ============================================================ */
 
 .search-form {
   display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-right: var(--space-md);
+}
+
+.search-input {
+  min-width: 14rem;
 }
 
 .search-button {
-  padding: 8px 16px;
-  margin: 0 10px;
+  padding: var(--space-sm) 1.125rem;
+  white-space: nowrap;
 }
 
 @media (max-width: 768px) {
   .search-form {
     justify-content: space-between;
-    margin: 20px 0;
+    margin: var(--space-md) 0;
+    width: 100%;
   }
 
-  .search-button {
-    margin-left: 10px;
-    margin-right: 0;
+  .search-input {
+    min-width: 0;
+    flex: 1;
+  }
+}
+
+/* ============================================================
+   Reusable animation utilities
+   ============================================================ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.5s var(--ease) both;
+}
+
+/* Gradient text accent (used in logo + footer brand) */
+.brand-accent,
+.text-gradient {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Focus ring utility */
+.focus-ring:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }

@@ -1,0 +1,344 @@
+/* ============================================================
+   Hero carousel — split layout, dark with violet glow
+   (Force/Kick "Dark. Max Power" inspired)
+   ============================================================ */
+
+.hero-carousel {
+  position: relative;
+  /* No overflow:hidden here — so edge arrows can straddle the border.
+     The rounded background/clip lives on .carousel-inner instead. */
+}
+
+/* Slides wrapper carries the rounded background + clipping. */
+.hero-carousel .carousel-inner {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background:
+    radial-gradient(
+      120% 120% at 85% 20%,
+      rgba(168, 85, 247, 0.22) 0%,
+      rgba(34, 211, 238, 0.08) 35%,
+      transparent 60%
+    ),
+    linear-gradient(120deg, #0c0d13 0%, #14161d 100%);
+}
+
+/* ---- Smoother cross-fade between slides ----
+   Let the whole slide (text + image together) cross-fade as one unit
+   with an eased timing, so there's no dead gap or overlap. */
+.hero-carousel .carousel-fade .carousel-item {
+  transition: opacity 0.55s ease-in-out;
+}
+
+/* Each slide: text left, image right.
+   Symmetric spacing: 3rem top/sides, bottom padding calculated so that
+   the gap from content to dots equals the gap from dots to container bottom.
+   With dots at bottom: 1.5rem and ~8px tall, we use 3.5rem bottom padding
+   to achieve ~24px above and below the indicators. */
+.hero-slide {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  align-items: center;
+  gap: 2.5rem;
+  min-height: 400px;
+  padding: 3rem 3.5rem 3.5rem;
+  text-decoration: none;
+}
+
+/* ---- Left: copy ---- */
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.85rem;
+  z-index: 2;
+}
+
+.hero-eyebrow {
+  font-size: var(--fs-xs); /* 12px */
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-hover);
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  /* fluid: scales between body-ish and hero (--fs-2xl = 40px) */
+  font-size: clamp(1.8rem, 3.5vw, var(--fs-2xl));
+  line-height: var(--lh-tight);
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin: 0;
+}
+
+.hero-price {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-lg);
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-cta {
+  margin-top: 0.5rem;
+  display: inline-block;
+  padding: 0.7rem 1.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--accent-gradient);
+  color: #fff;
+  font-weight: 600;
+  font-size: var(--fs-base); /* 16px */
+  box-shadow: 0 6px 20px var(--accent-glow);
+  transition:
+    transform var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+}
+
+.hero-slide:hover .hero-cta {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px var(--accent-glow);
+}
+
+/* ---- Right: product image on a pedestal ---- */
+.hero-image-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  position: relative;
+}
+
+.hero-image {
+  width: 100%;
+  max-height: 340px;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.6));
+  transition: transform 0.5s var(--ease);
+}
+
+.hero-slide:hover .hero-image {
+  transform: scale(1.04) translateY(-4px);
+}
+
+/* ---- Carousel controls: circular glassy buttons straddling edges ---- */
+.hero-carousel .carousel-control-prev,
+.hero-carousel .carousel-control-next {
+  width: 48px;
+  height: 48px;
+  top: 50%;
+  bottom: auto;
+  z-index: 4;
+  border-radius: 50%;
+  background: rgba(10, 11, 15, 0.8);
+  border: 1px solid var(--border-strong);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 1;
+  transition:
+    background-color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    transform var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+}
+
+/* Focus states for keyboard accessibility */
+.hero-carousel .carousel-control-prev:focus-visible,
+.hero-carousel .carousel-control-next:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent);
+}
+
+/* Straddle each edge: the circle's center sits on the border.
+   translate by -50%/+50% of its own width so half hangs outside. */
+.hero-carousel .carousel-control-prev {
+  left: 0;
+  transform: translate(-50%, -50%);
+}
+
+.hero-carousel .carousel-control-next {
+  right: 0;
+  transform: translate(50%, -50%);
+}
+
+.hero-carousel .carousel-control-prev:hover {
+  transform: translate(-50%, -50%) scale(1.06);
+}
+
+.hero-carousel .carousel-control-next:hover {
+  transform: translate(50%, -50%) scale(1.06);
+}
+
+.hero-carousel .carousel-control-prev:hover,
+.hero-carousel .carousel-control-next:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 4px 16px var(--accent-glow);
+}
+
+/* Arrow icons - slightly larger for visibility */
+.hero-carousel .carousel-control-prev-icon,
+.hero-carousel .carousel-control-next-icon {
+  width: 18px;
+  height: 18px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+/* Carousel indicators — pill style with a large, easy click area.
+   The visible pill is small but we use pseudo-elements to create a 
+   44x44px minimum touch target (WCAG best practice).
+   
+   Position: centered at bottom with equal spacing above and below.
+   bottom: 1.5rem (24px) from container bottom
+   Content above has ~24px gap to dots → symmetric spacing */
+.hero-carousel .carousel-indicators {
+  position: absolute;
+  bottom: 1.5rem;
+  margin: 0;
+  gap: 6px;
+  align-items: center;
+  z-index: 3; /* above the slide link so clicks land on the dots */
+}
+
+.hero-carousel .carousel-indicators [data-bs-target] {
+  position: relative;
+  width: 12px;
+  height: 8px;
+  border: none;
+  background-color: var(--border-strong);
+  border-radius: var(--radius-pill);
+  opacity: 1;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  transition:
+    width var(--dur) var(--ease),
+    background-color var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
+}
+
+/* Enlarged touch target via pseudo-element (44x44px minimum) */
+.hero-carousel .carousel-indicators [data-bs-target]::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.hero-carousel .carousel-indicators [data-bs-target]:hover {
+  background-color: var(--text-muted);
+  transform: scale(1.1);
+}
+
+/* Focus state for keyboard navigation */
+.hero-carousel .carousel-indicators [data-bs-target]:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+/* Active: same height, wider pill (24px) with the accent gradient. */
+.hero-carousel .carousel-indicators .active {
+  width: 24px;
+  background: var(--accent-gradient);
+  transform: scale(1);
+}
+
+.hero-carousel .carousel-indicators .active:hover {
+  transform: scale(1.05);
+}
+
+/* ---- Responsive: stack on small screens ---- */
+@media (max-width: 768px) {
+  .hero-slide {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 2rem 1.5rem 3rem;
+    gap: 1.5rem;
+    min-height: 0;
+  }
+
+  .hero-content {
+    align-items: center;
+    order: 2;
+  }
+
+  .hero-image-wrap {
+    order: 1;
+  }
+
+  .hero-image {
+    max-height: 200px;
+  }
+
+  /* On mobile keep the arrows fully inside so they aren't clipped by
+     the viewport edge; swipe is the primary interaction anyway. */
+  .hero-carousel .carousel-control-prev,
+  .hero-carousel .carousel-control-next {
+    width: 44px;
+    height: 44px;
+  }
+
+  .hero-carousel .carousel-control-prev {
+    left: 12px;
+    transform: translate(0, -50%);
+  }
+
+  .hero-carousel .carousel-control-next {
+    right: 12px;
+    transform: translate(0, -50%);
+  }
+
+  .hero-carousel .carousel-control-prev:hover,
+  .hero-carousel .carousel-control-prev:active {
+    transform: translate(0, -50%) scale(1.06);
+  }
+
+  .hero-carousel .carousel-control-next:hover,
+  .hero-carousel .carousel-control-next:active {
+    transform: translate(0, -50%) scale(1.06);
+  }
+
+  .hero-carousel .carousel-control-prev-icon,
+  .hero-carousel .carousel-control-next-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Mobile indicators: symmetric spacing maintained */
+  .hero-carousel .carousel-indicators {
+    bottom: 1.25rem;
+    gap: 8px;
+  }
+
+  .hero-carousel .carousel-indicators [data-bs-target] {
+    width: 14px;
+    height: 10px;
+  }
+
+  .hero-carousel .carousel-indicators .active {
+    width: 28px;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .hero-carousel .carousel-fade .carousel-item {
+    transition: none;
+  }
+
+  .hero-carousel .carousel-control-prev,
+  .hero-carousel .carousel-control-next,
+  .hero-carousel .carousel-indicators [data-bs-target],
+  .hero-slide .hero-cta,
+  .hero-image {
+    transition: none;
+  }
+}

@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Form, Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
+
+import FormContainer from "../../../Components/FormContainer/FormContainer";
+import Loader from "../../../Components/Loader/Loader";
+import Message from "../../../Components/Message/Message";
 import {
   useGetUserDetailsQuery,
   useUpdateUserMutation,
 } from "../../../slices/usersApiSlice";
-import FormContainer from "../../../Components/FormContainer/FormContainer";
-import Loader from "../../../Components/Loader/Loader";
-import Message from "../../../Components/Message/Message";
+import { getErrorMessage, showErrorToast } from "../../../utils/errorUtils";
 
 const UserEditPage = () => {
   const { id: userId } = useParams();
@@ -31,12 +32,12 @@ const UserEditPage = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      await updateUser({ userId, name, email, isAdmin });
-      toast.success("user updated successfully");
+      await updateUser({ userId, name, email, isAdmin }).unwrap();
+      toast.success("User updated successfully");
       refetch();
       navigate("/admin/userlist");
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      showErrorToast(err);
     }
   };
 
@@ -55,25 +56,17 @@ const UserEditPage = () => {
       </Link>
       <FormContainer>
         <h1>Edit User</h1>
-        {loadingUpdate && (
-          <div className="loader-container">
-            <Loader />
-          </div>
-        )}
+        {loadingUpdate && <Loader />}
         {isLoading ? (
-          <div className="loader-container">
-            <Loader />
-          </div>
+          <Loader />
         ) : error ? (
-          <Message variant="danger">
-            {error?.data?.message || error.error}
-          </Message>
+          <Message variant="danger">{getErrorMessage(error)}</Message>
         ) : (
           <Form onSubmit={submitHandler}>
             <Form.Group className="my-2" controlId="name">
               <Form.Label>Name</Form.Label>
               <Form.Control
-                type="name"
+                type="text"
                 placeholder="Enter name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -99,7 +92,7 @@ const UserEditPage = () => {
               ></Form.Check>
             </Form.Group>
 
-            <Button type="submit" variant="primary">
+            <Button type="submit" variant="primary" className="mt-3">
               Update
             </Button>
           </Form>

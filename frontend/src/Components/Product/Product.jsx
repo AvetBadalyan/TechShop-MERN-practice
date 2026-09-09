@@ -1,4 +1,4 @@
-import { Badge, Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { handleImageError } from "../../utils/imageUtils";
 import Rating from "../Rating/Rating";
@@ -9,43 +9,42 @@ const Product = ({ product }) => {
   const lowStock = product.countInStock > 0 && product.countInStock <= 5;
 
   return (
-    <Card className="my-3 p-3 rounded product-card h-100">
-      <Link to={`/product/${product._id}`} className="position-relative">
-        <Card.Img
+    <Card className="p-3 product-card h-100">
+      <Link
+        to={`/product/${product._id}`}
+        className="product-image-wrap d-block"
+      >
+        <img
           src={product.image}
           alt={product.name}
-          variant="top"
           className="product-image"
           onError={handleImageError}
+          loading="lazy"
         />
         {outOfStock && (
-          <Badge bg="secondary" className="product-stock-badge">
-            Out of Stock
-          </Badge>
+          <span className="product-stock-badge badge-out">Out of Stock</span>
         )}
         {lowStock && (
-          <Badge bg="danger" className="product-stock-badge">
+          <span className="product-stock-badge badge-low">
             Only {product.countInStock} left
-          </Badge>
+          </span>
         )}
       </Link>
 
       <Card.Body className="d-flex flex-column">
+        <div className="product-category">{product.category}</div>
         <Link to={`/product/${product._id}`}>
           <Card.Title as="div" className="product-title">
-            <strong>{product.name}</strong>
+            {product.name}
           </Card.Title>
         </Link>
-        <div className="text-muted small mb-2">{product.category}</div>
-        <Card.Text as="div">
+        <Card.Text as="div" className="mb-3">
           <Rating
             value={product.rating}
             text={`${product.numReviews} reviews`}
           />
         </Card.Text>
-        <Card.Text as="h3" className="mt-auto mb-0">
-          ${product.price}
-        </Card.Text>
+        <p className="product-price mt-auto">${product.price}</p>
       </Card.Body>
     </Card>
   );

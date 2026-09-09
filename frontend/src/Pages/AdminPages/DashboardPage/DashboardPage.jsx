@@ -1,13 +1,15 @@
-import { Row, Col, Card, Table } from "react-bootstrap";
+import { Card, Col, Row, Table } from "react-bootstrap";
 import {
+  FaBoxOpen,
   FaDollarSign,
   FaShoppingBag,
-  FaBoxOpen,
   FaUsers,
 } from "react-icons/fa";
-import { useGetDashboardStatsQuery } from "../../../slices/orderApiSlice";
+
 import Loader from "../../../Components/Loader/Loader";
 import Message from "../../../Components/Message/Message";
+import { useGetDashboardStatsQuery } from "../../../slices/orderApiSlice";
+import { getErrorMessage } from "../../../utils/errorUtils";
 import "./DashboardPage.css";
 
 const StatCard = ({ icon, label, value, variant }) => (
@@ -25,25 +27,17 @@ const StatCard = ({ icon, label, value, variant }) => (
 const DashboardPage = () => {
   const { data, isLoading, error } = useGetDashboardStatsQuery();
 
-  if (isLoading) {
-    return (
-      <div className="loader-container">
-        <Loader />
-      </div>
-    );
-  }
+  if (isLoading) return <Loader />;
 
   if (error) {
-    return (
-      <Message variant="danger">{error?.data?.message || error.error}</Message>
-    );
+    return <Message variant="danger">{getErrorMessage(error)}</Message>;
   }
 
   const maxDayTotal = Math.max(...data.salesByDay.map((d) => d.total), 1);
 
   return (
     <>
-      <h1 className="mb-4">Dashboard</h1>
+      <h1>Dashboard</h1>
 
       {/* Summary stat cards */}
       <Row className="g-3 mb-4">

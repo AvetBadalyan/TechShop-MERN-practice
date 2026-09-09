@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import { Form, Button, Col } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Button, Col, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { savePaymentMethod } from "../../slices/cartSlice";
-import FormContainer from "../../Components/FormContainer/FormContainer";
+import { useNavigate } from "react-router-dom";
 import CheckoutSteps from "../../Components/CheckoutSteps/CheckoutSteps";
+import FormContainer from "../../Components/FormContainer/FormContainer";
+import { savePaymentMethod } from "../../slices/cartSlice";
 
 const PaymentPage = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const PaymentPage = () => {
   const { shippingAddress } = cart;
 
   useEffect(() => {
-    if (!shippingAddress.address) {
+    if (!shippingAddress?.address) {
       navigate("/shipping");
     }
   }, [navigate, shippingAddress]);
@@ -42,13 +42,13 @@ const PaymentPage = () => {
               id="PayPal"
               name="paymentMethod"
               value="PayPal"
-              checked
+              checked={paymentMethod === "PayPal"}
               onChange={(e) => setPaymentMethod(e.target.value)}
             ></Form.Check>
           </Col>
         </Form.Group>
 
-        <Button type="submit" variant="primary">
+        <Button type="submit" variant="primary" className="mt-3">
           Continue
         </Button>
       </Form>

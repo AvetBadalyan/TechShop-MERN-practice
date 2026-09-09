@@ -1,5 +1,9 @@
+import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import { useEffect } from "react";
 import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import Loader from "../../Components/Loader/Loader";
 import Message from "../../Components/Message/Message";
 import {
@@ -8,13 +12,8 @@ import {
   useGetPaypalClientIdQuery,
   usePayOrderMutation,
 } from "../../slices/orderApiSlice";
+import { getErrorMessage, showErrorToast } from "../../utils/errorUtils";
 import { handleImageError } from "../../utils/imageUtils";
-
-import { useEffect } from "react";
-
-import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
 
 const OrderPage = () => {
   const { id: orderId } = useParams();
@@ -23,7 +22,7 @@ const OrderPage = () => {
     data: order,
     refetch,
     isLoading,
-    isError,
+    error,
   } = useGetOrderDetailsQuery(orderId);
 
   const [payOrder, { isLoading: payOrderLoading }] = usePayOrderMutation();
@@ -68,13 +67,13 @@ const OrderPage = () => {
         refetch();
         toast.success("Order is paid");
       } catch (err) {
-        toast.error(err?.data?.message || err.error || "An error occurred");
+        showErrorToast(err);
       }
     });
   }
 
   function onError(err) {
-    toast.error(err.message || "An error occurred");
+    showErrorToast(err);
   }
 
   function createOrder(data, actions) {
@@ -93,22 +92,18 @@ const OrderPage = () => {
 
   const deliverOrderHandler = async () => {
     try {
-      await deliverOrder(orderId);
+      await deliverOrder(orderId).unwrap();
       refetch();
       toast.success("Order delivered");
-    } catch (error) {
-      toast.error(error.data?.message || error.message);
+    } catch (err) {
+      showErrorToast(err);
     }
   };
 
   return isLoading ? (
-    <div className="loader-container">
-      <Loader />
-    </div>
-  ) : isError ? (
-    <Message variant="danger">
-      {isError.data?.message || isError.error || "An Error Occurred"}
-    </Message>
+    <Loader />
+  ) : error ? (
+    <Message variant="danger">{getErrorMessage(error)}</Message>
   ) : (
     <>
       <h1>Order {order._id}</h1>
@@ -132,7 +127,8 @@ const OrderPage = () => {
               </p>
               {order.isDelivered ? (
                 <Message variant="success">
-                  Delivered on {order.deliveredAt}
+                  Delivered on{" "}
+                  {new Date(order.deliveredAt).toLocaleDateString()}
                 </Message>
               ) : (
                 <Message variant="danger">Not Delivered</Message>
@@ -146,7 +142,9 @@ const OrderPage = () => {
                 {order.paymentMethod}
               </p>
               {order.isPaid ? (
-                <Message variant="success">Paid on {order.paidAt}</Message>
+                <Message variant="success">
+                  Paid on {new Date(order.paidAt).toLocaleDateString()}
+                </Message>
               ) : (
                 <Message variant="danger">Not Paid</Message>
               )}
@@ -158,15 +156,15 @@ const OrderPage = () => {
                 <Message>Order is empty</Message>
               ) : (
                 <ListGroup variant="flush">
-                  {order.orderItems.map((item, index) => (
-                    <ListGroup.Item key={index}>
-                      <Row>
-                        <Col md={1}>
+                  {order.orderItems.map((item) => (
+                    <ListGroup.Item key={item._id || item.product}>
+                      <Row className="align-items-center">
+                        <Col xs={3} md={2}>
                           <Image
                             src={item.image}
                             alt={item.name}
                             onError={handleImageError}
-                            fluid
+                            className="order-item-thumb"
                             rounded
                           />
                         </Col>
@@ -177,7 +175,7 @@ const OrderPage = () => {
                         </Col>
                         <Col md={4}>
                           {item.quantity} x ${item.price} = $
-                          {item.quantity * item.price}
+                          {(item.quantity * item.price).toFixed(2)}
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -219,26 +217,20 @@ const OrderPage = () => {
               </ListGroup.Item>
               {!order.isPaid && (
                 <ListGroup.Item>
-                  {payOrderLoading && (
-                    <div className="loader-container">
-                      <Loader />
-                    </div>
-                  )}
+                  {payOrderLoading && <Loader />}
 
-                  {isPending ? (
-                    <div className="loader-container">
-                      <Loader />
-                    </div>
+                  {errorPayPal ? (
+                    <Message variant="danger">
+                      {getErrorMessage(errorPayPal)}
+                    </Message>
+                  ) : isPending ? (
+                    <Loader />
                   ) : (
-                    <div>
-                      <div>
-                        <PayPalButtons
-                          createOrder={createOrder}
-                          onApprove={onApprove}
-                          onError={onError}
-                        ></PayPalButtons>
-                      </div>
-                    </div>
+                    <PayPalButtons
+                      createOrder={createOrder}
+                      onApprove={onApprove}
+                      onError={onError}
+                    />
                   )}
                 </ListGroup.Item>
               )}

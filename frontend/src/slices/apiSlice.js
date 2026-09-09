@@ -1,4 +1,4 @@
-import { fetchBaseQuery, createApi } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../constants";
 
 import { logout } from "./authSlice";
@@ -24,5 +24,6 @@ async function baseQueryWithAuth(args, api, extra) {
 export const apiSlice = createApi({
   baseQuery: baseQueryWithAuth,
   tagTypes: ["Product", "Order", "User"],
-  endpoints: (builder) => ({}),
+  // Endpoints are injected from feature slices via apiSlice.injectEndpoints.
+  endpoints: () => ({}),
 });

@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Button, Form } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
 
 const SearchBox = () => {
   const navigate = useNavigate();
@@ -25,10 +24,10 @@ const SearchBox = () => {
         name="q"
         onChange={(e) => setKeyword(e.target.value)}
         value={keyword}
-        placeholder="Search Products..."
-        className="mr-sm-2 ml-sm-5"
+        placeholder="Search products..."
+        className="search-input"
       ></Form.Control>
-      <Button type="submit" variant="outline-light" className="search-button">
+      <Button type="submit" variant="primary" className="search-button">
         Search
       </Button>
     </Form>

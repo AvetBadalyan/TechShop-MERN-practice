@@ -6,6 +6,8 @@ import Order from "./models/orderModel.js";
 import Product from "./models/productModel.js";
 import User from "./models/userModel.js";
 
+// Same as app.js — relies on npm scripts running from the project root
+// so process.cwd() resolves to the folder containing .env
 dotenv.config();
 
 connectDB();
@@ -69,7 +71,12 @@ const importData = async () => {
     }
 
     // Create a few sample orders so the admin dashboard shows real data.
-    const customer = customers[0]._id;
+    // Find Demo Admin by email so the index never goes stale if users.js
+    // order changes.
+    const demoAdminUser = createdUsers.find(
+      (u) => u.email === "avet@gmail.com"
+    );
+    const demoAdmin = demoAdminUser._id;
     const now = new Date();
     const daysAgo = (n) => {
       const d = new Date(now);
@@ -80,13 +87,13 @@ const importData = async () => {
     const sampleOrders = createdProducts.slice(0, 6).map((product, i) => {
       const quantity = (i % 3) + 1;
       const itemsPrice = product.price * quantity;
-      const taxPrice = Number((itemsPrice * 0.15).toFixed(2));
+      const taxPrice = Number((itemsPrice * 0.2).toFixed(2));
       const shippingPrice = itemsPrice > 100 ? 0 : 10;
       const totalPrice = Number(
         (itemsPrice + taxPrice + shippingPrice).toFixed(2)
       );
       return {
-        user: customer,
+        user: demoAdmin,
         orderItems: [
           {
             name: product.name,
@@ -99,7 +106,7 @@ const importData = async () => {
         shippingAddress: {
           address: "123 Demo Street",
           city: "Yerevan",
-          postalCode: 375000,
+          postalCode: "375000",
           country: "Armenia",
         },
         paymentMethod: "PayPal",

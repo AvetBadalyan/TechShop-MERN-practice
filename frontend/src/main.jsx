@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import App from "./App.jsx";
 import "./assets/styles/bootstrap.custom.css";
+import "./assets/styles/theme.css";
 import AdminRoute from "./Components/AdminRoute/AdminRoute.jsx";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute.jsx";
 import "./index.css";
@@ -29,7 +30,7 @@ import PaymentPage from "./Pages/PaymentPage/PaymentPage.jsx";
 import PlaceOrderPage from "./Pages/PlaceOrderPage/PlaceOrderPage.jsx";
 import ProductPage from "./Pages/ProductPage/ProductPage.jsx";
 import ProfilePage from "./Pages/ProfilePage/ProfilePage.jsx";
-import RegisterPage from "./Pages/RegisterPage/Register.jsx";
+import RegisterPage from "./Pages/RegisterPage/RegisterPage.jsx";
 import ShippingPage from "./Pages/ShippingPage/ShippingPage.jsx";
 import store from "./store/store.js";
 
@@ -37,7 +38,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index={true} path="/" element={<HomePage />} />
-      <Route path="/search/:keyword" element={<HomePage />} />{" "}
+      <Route path="/search/:keyword" element={<HomePage />} />
       <Route path="/page/:pageNumber" element={<HomePage />} />
       <Route path="/search/:keyword/page/:pageNumber" element={<HomePage />} />
       <Route path="/product/:id" element={<ProductPage />} />

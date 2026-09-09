@@ -21,6 +21,8 @@ const cartSlice = createSlice({
   initialState: getInitialState(),
   reducers: {
     addToCart: (state, action) => {
+      // Strip server-only product fields; the cart only needs the item data.
+      // eslint-disable-next-line no-unused-vars
       const { user, rating, numReviews, reviews, ...newItem } = action.payload;
 
       // Check if the item is already in the cart
@@ -36,7 +38,7 @@ const cartSlice = createSlice({
         state.cartItems.push(newItem);
       }
 
-      return updateCart(state, newItem);
+      return updateCart(state);
     },
     removeFromCart: (state, action) => {
       state.cartItems = state.cartItems.filter(
@@ -53,7 +55,7 @@ const cartSlice = createSlice({
       state.paymentMethod = action.payload;
       localStorage.setItem("cart", JSON.stringify(state));
     },
-    clearCartItems: (state, action) => {
+    clearCartItems: (state) => {
       state.cartItems = [];
       state.itemsPrice = 0;
       state.shippingPrice = 0;
@@ -61,17 +63,16 @@ const cartSlice = createSlice({
       state.totalPrice = 0;
       localStorage.setItem("cart", JSON.stringify(state));
     },
-    //  reset state for when a user logs out so the next doesn't inherit the previous users cart and shipping
-    resetCart: (state) =>
-      (state = {
-        cartItems: [],
-        itemsPrice: 0,
-        shippingPrice: 0,
-        taxPrice: 0,
-        totalPrice: 0,
-        shippingAddress: {},
-        paymentMethod: "PayPal",
-      }),
+    //  reset state when a user logs out so the next user doesn't inherit the previous user's cart and shipping
+    resetCart: () => ({
+      cartItems: [],
+      itemsPrice: 0,
+      shippingPrice: 0,
+      taxPrice: 0,
+      totalPrice: 0,
+      shippingAddress: {},
+      paymentMethod: "PayPal",
+    }),
   },
 });
 

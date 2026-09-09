@@ -1,39 +1,43 @@
 /* Stat cards */
 .dashboard-stat-card {
-  border: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
 }
 
+/* Colored stat icons (bg-success/primary/warning/info from Bootstrap)
+   give each metric a distinct, quickly-scannable color — a common
+   admin-dashboard pattern. */
 .dashboard-stat-icon {
   width: 52px;
   height: 52px;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
-  font-size: 1.35rem;
+  font-size: var(--fs-lg); /* 22px */
   flex-shrink: 0;
 }
 
 .dashboard-stat-value {
-  font-size: 1.5rem;
+  font-size: var(--fs-lg); /* 22px */
   font-weight: 700;
-  line-height: 1.1;
+  line-height: var(--lh-tight);
+  color: var(--text);
 }
 
 .dashboard-stat-label {
-  color: #6c757d;
-  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-size: var(--fs-xs); /* 12px */
 }
 
 /* Simple CSS bar chart */
 .dashboard-chart {
   display: flex;
   align-items: flex-end;
-  gap: 12px;
+  gap: var(--space-sm);
   height: 220px;
-  padding-top: 16px;
+  padding-top: var(--space-md);
 }
 
 .dashboard-bar-wrap {
@@ -48,10 +52,10 @@
 .dashboard-bar {
   width: 100%;
   max-width: 46px;
-  background: linear-gradient(180deg, #4e73df, #224abe);
-  border-radius: 6px 6px 0 0;
+  background: var(--accent-gradient);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
   min-height: 4px;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--dur) var(--ease);
 }
 
 .dashboard-bar:hover {
@@ -59,8 +63,8 @@
 }
 
 .dashboard-bar-label {
-  margin-top: 8px;
-  font-size: 0.75rem;
-  color: #6c757d;
+  margin-top: var(--space-sm);
+  font-size: var(--fs-xs); /* 12px */
+  color: var(--text-muted);
   white-space: nowrap;
 }

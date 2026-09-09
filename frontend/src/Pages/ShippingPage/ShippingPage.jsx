@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import CheckoutSteps from "../../Components/CheckoutSteps/CheckoutSteps";
 import FormContainer from "../../Components/FormContainer/FormContainer";
 import { saveShippingAddress } from "../../slices/cartSlice";
-import CheckoutSteps from "../../Components/CheckoutSteps/CheckoutSteps";
 
 const ShippingPage = () => {
   const cart = useSelector((state) => state.cart);
@@ -13,7 +13,7 @@ const ShippingPage = () => {
   const [address, setAddress] = useState(shippingAddress?.address || "");
   const [city, setCity] = useState(shippingAddress?.city || "");
   const [postalCode, setPostalCode] = useState(
-    shippingAddress?.postalCode || 11111
+    shippingAddress?.postalCode || ""
   );
   const [country, setCountry] = useState(shippingAddress?.country || "");
 
@@ -75,7 +75,7 @@ const ShippingPage = () => {
           ></Form.Control>
         </Form.Group>
 
-        <Button type="submit" variant="primary">
+        <Button type="submit" variant="primary" className="mt-3">
           Continue
         </Button>
       </Form>

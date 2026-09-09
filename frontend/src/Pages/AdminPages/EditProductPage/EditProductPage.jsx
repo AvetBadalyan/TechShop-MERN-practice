@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
-
 import { toast } from "react-toastify";
+
 import FormContainer from "../../../Components/FormContainer/FormContainer";
 import Loader from "../../../Components/Loader/Loader";
 import Message from "../../../Components/Message/Message";
@@ -11,6 +11,7 @@ import {
   useUpdateProductMutation,
   useUploadProductImageMutation,
 } from "../../../slices/productsApiSlice.js";
+import { getErrorMessage, showErrorToast } from "../../../utils/errorUtils";
 
 const EditProductPage = () => {
   const { id: productId } = useParams();
@@ -57,7 +58,7 @@ const EditProductPage = () => {
       refetch();
       navigate("/admin/productlist");
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      showErrorToast(err);
     }
   };
 
@@ -81,7 +82,7 @@ const EditProductPage = () => {
       toast.success(res.message, { toastId: "image-uploaded" });
       setImage(res.image);
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      showErrorToast(err);
     }
   };
 
@@ -94,24 +95,22 @@ const EditProductPage = () => {
         <h1>Edit Product</h1>
         {loadingUpdate && <Loader />}
         {isLoading ? (
-          <div className="loader-container">
-            <Loader />
-          </div>
+          <Loader />
         ) : error ? (
-          <Message variant="danger">{error.data.message}</Message>
+          <Message variant="danger">{getErrorMessage(error)}</Message>
         ) : (
           <Form onSubmit={submitHandler}>
-            <Form.Group controlId="name">
+            <Form.Group className="my-2" controlId="name">
               <Form.Label>Name</Form.Label>
               <Form.Control
-                type="name"
+                type="text"
                 placeholder="Enter name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId="price">
+            <Form.Group className="my-2" controlId="price">
               <Form.Label>Price</Form.Label>
               <Form.Control
                 type="number"
@@ -121,7 +120,7 @@ const EditProductPage = () => {
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId="image">
+            <Form.Group className="my-2" controlId="image">
               <Form.Label>Image</Form.Label>
               <Form.Control
                 type="text"
@@ -133,15 +132,12 @@ const EditProductPage = () => {
                 label="Choose File"
                 onChange={uploadFileHandler}
                 type="file"
+                className="mt-2"
               ></Form.Control>
-              {loadingUpload && (
-                <div className="loader-container">
-                  <Loader />
-                </div>
-              )}
+              {loadingUpload && <Loader />}
             </Form.Group>
 
-            <Form.Group controlId="brand">
+            <Form.Group className="my-2" controlId="brand">
               <Form.Label>Brand</Form.Label>
               <Form.Control
                 type="text"
@@ -151,17 +147,17 @@ const EditProductPage = () => {
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId="countInStock">
+            <Form.Group className="my-2" controlId="countInStock">
               <Form.Label>Count In Stock</Form.Label>
               <Form.Control
                 type="number"
-                placeholder="Enter countInStock"
+                placeholder="Enter count in stock"
                 value={countInStock}
                 onChange={(e) => setCountInStock(e.target.value)}
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId="category">
+            <Form.Group className="my-2" controlId="category">
               <Form.Label>Category</Form.Label>
               <Form.Control
                 type="text"
@@ -171,21 +167,18 @@ const EditProductPage = () => {
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId="description">
+            <Form.Group className="my-2" controlId="description">
               <Form.Label>Description</Form.Label>
               <Form.Control
-                type="text"
+                as="textarea"
+                rows={3}
                 placeholder="Enter description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               ></Form.Control>
             </Form.Group>
 
-            <Button
-              type="submit"
-              variant="primary"
-              style={{ marginTop: "1rem" }}
-            >
+            <Button type="submit" variant="primary" className="mt-3">
               Update
             </Button>
           </Form>

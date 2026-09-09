@@ -12,6 +12,10 @@ import productRoutes from "./routes/productRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 
+// dotenv.config() looks for .env in process.cwd(), which is the project root
+// when started via npm scripts (npm run dev / npm start / npm run data:import).
+// This covers all normal usage. If you need to run node directly from inside
+// backend/, pass the path explicitly: dotenv.config({ path: "../.env" })
 dotenv.config();
 
 // Connect on module load. connectDB caches the connection so repeated

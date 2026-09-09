@@ -2,6 +2,11 @@ import jwt from "jsonwebtoken";
 
 const isProd = process.env.NODE_ENV === "production";
 
+// Single source of truth for token lifetime.
+// Used in both jwt.sign (expiresIn) and the cookie maxAge so the two
+// never silently drift apart.
+const JWT_EXPIRES_MS = 24 * 60 * 60 * 1000; // 1 day
+
 // Cookie options shared by set (generateToken) and clear (logout) so the
 // browser treats them as the same cookie.
 // In production the frontend and API are on different domains, so the cookie
@@ -14,12 +19,12 @@ export const cookieOptions = {
 
 const generateToken = (res, userId) => {
   const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
-    expiresIn: "1d",
+    expiresIn: JWT_EXPIRES_MS / 1000, // jwt expects seconds
   });
 
   res.cookie("jwt", token, {
     ...cookieOptions,
-    maxAge: 24 * 60 * 60 * 1000, // 1 day
+    maxAge: JWT_EXPIRES_MS,
   });
 };
 

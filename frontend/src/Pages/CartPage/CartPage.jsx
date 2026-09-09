@@ -12,8 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Message from "../../Components/Message/Message";
 import { addToCart, removeFromCart } from "../../slices/cartSlice";
-import { handleImageError } from "../../utils/imageUtils";
 import { generateQuantityOptions } from "../../utils/cartUtils";
+import { handleImageError } from "../../utils/imageUtils";
 
 const CartPage = () => {
   const navigate = useNavigate();
@@ -21,6 +21,8 @@ const CartPage = () => {
 
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
+
+  const { userInfo } = useSelector((state) => state.auth);
 
   const addToCartHandler = (product, quantity) => {
     dispatch(addToCart({ ...product, quantity }));
@@ -31,13 +33,19 @@ const CartPage = () => {
   };
 
   const checkoutHandler = () => {
-    navigate("/login?redirect=/shipping");
+    // Already logged in — go straight to shipping; otherwise redirect back
+    // after login so the user doesn't lose their cart context.
+    if (userInfo) {
+      navigate("/shipping");
+    } else {
+      navigate("/login?redirect=/shipping");
+    }
   };
 
   return (
     <Row>
       <Col md={8}>
-        <h1 style={{ marginBottom: "20px" }}>Shopping Cart</h1>
+        <h1>Shopping Cart</h1>
         {cartItems.length === 0 ? (
           <Message>
             Your cart is empty <Link to="/">Go Back</Link>
@@ -94,10 +102,12 @@ const CartPage = () => {
                 Subtotal (
                 {cartItems.reduce((acc, item) => acc + item.quantity, 0)}) items
               </h2>
-              $
-              {cartItems
-                .reduce((acc, item) => acc + item.quantity * item.price, 0)
-                .toFixed(2)}
+              <p className="mb-0">
+                $
+                {cartItems
+                  .reduce((acc, item) => acc + item.quantity * item.price, 0)
+                  .toFixed(2)}
+              </p>
             </ListGroup.Item>
             <ListGroup.Item>
               <Button

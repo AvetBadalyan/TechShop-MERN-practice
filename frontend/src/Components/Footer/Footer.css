@@ -1,0 +1,23 @@
+/* ============================================================
+   Footer
+   ============================================================ */
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  margin-top: var(--space-2xl);
+  padding: var(--space-lg) 0;
+  background: linear-gradient(180deg, transparent, rgba(168, 85, 247, 0.04));
+}
+
+.footer-brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-md);
+  color: var(--text);
+}
+
+.footer-copy {
+  color: var(--text-faint);
+  font-size: var(--fs-xs); /* 12px */
+  margin-left: var(--space-sm);
+}

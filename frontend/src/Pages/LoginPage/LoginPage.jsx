@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import { useLoginMutation } from "../../slices/usersApiSlice";
-import { setCredentials } from "../../slices/authSlice";
-import { toast } from "react-toastify";
-import Loader from "./../../Components/Loader/Loader";
 import FormContainer from "../../Components/FormContainer/FormContainer";
+import Loader from "../../Components/Loader/Loader";
+import { setCredentials } from "../../slices/authSlice";
+import { useLoginMutation } from "../../slices/usersApiSlice";
+import { showErrorToast } from "../../utils/errorUtils";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -37,7 +37,7 @@ const LoginPage = () => {
       dispatch(setCredentials({ ...res }));
       navigate(redirect);
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      showErrorToast(err);
     }
   };
 
@@ -66,15 +66,16 @@ const LoginPage = () => {
           ></Form.Control>
         </Form.Group>
 
-        <Button disabled={isLoading} type="submit" variant="primary">
+        <Button
+          disabled={isLoading}
+          type="submit"
+          variant="primary"
+          className="mt-3"
+        >
           Sign In
         </Button>
 
-        {isLoading && (
-          <div className="loader-container">
-            <Loader />
-          </div>
-        )}
+        {isLoading && <Loader />}
       </Form>
 
       <Row className="py-3">

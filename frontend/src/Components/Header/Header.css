@@ -1,0 +1,100 @@
+/* ============================================================
+   Navbar — glassy dark, sticky, gradient logo
+   ============================================================ */
+
+.site-navbar {
+  background-color: rgba(10, 11, 15, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding-top: var(--space-sm);
+  padding-bottom: var(--space-sm);
+  z-index: 1030;
+}
+
+/* ---- Brand / logo ---- */
+.brand-logo {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-lg);
+  letter-spacing: -0.01em;
+  color: var(--text) !important;
+}
+
+/* ---- Nav links ---- */
+.site-navbar .nav-link {
+  color: var(--text-muted) !important;
+  font-weight: 500;
+  transition: color var(--dur) var(--ease);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+}
+
+.site-navbar .nav-link:hover {
+  color: var(--text) !important;
+}
+
+.site-navbar .nav-link:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+/* ---- Cart badge (violet, not green) ---- */
+.cart-badge {
+  margin-left: var(--space-xs);
+  background: var(--accent-gradient) !important;
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 2px 8px var(--accent-glow);
+}
+
+/* ---- Dropdown toggles (username / admin) ---- */
+.site-navbar .dropdown-toggle {
+  color: var(--text-muted) !important;
+  font-weight: 500;
+}
+
+.site-navbar .dropdown-toggle:hover {
+  color: var(--text) !important;
+}
+
+/* ---- Mobile hamburger toggle ---- */
+.site-navbar .navbar-toggler {
+  border-color: var(--border-strong);
+  padding: 0.5rem 0.75rem;
+  transition: border-color var(--dur) var(--ease);
+}
+
+.site-navbar .navbar-toggler:focus {
+  box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+.site-navbar .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(167, 173, 186, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* ---- Mobile collapse menu ---- */
+@media (max-width: 767.98px) {
+  .site-navbar .navbar-collapse {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-top: 0.75rem;
+    padding: 1rem;
+  }
+
+  .site-navbar .navbar-nav {
+    gap: 0.5rem;
+  }
+
+  .site-navbar .nav-link {
+    padding: 0.75rem 1rem;
+  }
+
+  .site-navbar .dropdown-menu {
+    background-color: var(--surface-hover);
+    border: none;
+    padding: 0.5rem 0;
+    margin-top: 0.25rem;
+  }
+}
