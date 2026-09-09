@@ -16,7 +16,9 @@ const authSlice = createSlice({
     },
     logout: (state) => {
       state.userInfo = null;
-      localStorage.clear();
+      // Remove only the keys this app owns — avoid wiping unrelated storage.
+      localStorage.removeItem("userInfo");
+      localStorage.removeItem("cart");
     },
   },
 });

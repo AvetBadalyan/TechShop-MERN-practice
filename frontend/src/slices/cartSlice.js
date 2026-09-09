@@ -55,6 +55,9 @@ const cartSlice = createSlice({
       state.paymentMethod = action.payload;
       localStorage.setItem("cart", JSON.stringify(state));
     },
+    // clearCartItems: used after a successful order — resets prices + items
+    // but keeps shippingAddress/paymentMethod in state (they're already saved
+    // to localStorage via saveShippingAddress/savePaymentMethod).
     clearCartItems: (state) => {
       state.cartItems = [];
       state.itemsPrice = 0;
@@ -63,7 +66,9 @@ const cartSlice = createSlice({
       state.totalPrice = 0;
       localStorage.setItem("cart", JSON.stringify(state));
     },
-    //  reset state when a user logs out so the next user doesn't inherit the previous user's cart and shipping
+    // resetCart: used on logout — returns a completely fresh default state.
+    // localStorage is cleared separately by authSlice.logout so the next
+    // user doesn't inherit anything.
     resetCart: () => ({
       cartItems: [],
       itemsPrice: 0,

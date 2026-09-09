@@ -20,7 +20,7 @@ const getUsers = () => {
       // Read-only demo admin — can view admin screens but not modify data.
       // Blocked from write operations by the demoGuard middleware.
       name: "Demo Admin",
-      email: "avet@gmail.com",
+      email: process.env.DEMO_ADMIN_EMAIL || "avet@gmail.com",
       password: bcrypt.hashSync("123456", 10),
       isAdmin: true,
     },

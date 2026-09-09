@@ -71,11 +71,10 @@ const importData = async () => {
     }
 
     // Create a few sample orders so the admin dashboard shows real data.
-    // Find Demo Admin by email so the index never goes stale if users.js
-    // order changes.
-    const demoAdminUser = createdUsers.find(
-      (u) => u.email === "avet@gmail.com"
-    );
+    // Find Demo Admin by email using the env var (same value demoGuard reads)
+    // so they can never get out of sync.
+    const demoAdminEmail = process.env.DEMO_ADMIN_EMAIL || "avet@gmail.com";
+    const demoAdminUser = createdUsers.find((u) => u.email === demoAdminEmail);
     const demoAdmin = demoAdminUser._id;
     const now = new Date();
     const daysAgo = (n) => {

@@ -5,16 +5,17 @@ import { useForm } from "react-hook-form";
 import { FaTimes } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import Loader from "../../Components/Loader/Loader";
 import Message from "../../Components/Message/Message";
+import Meta from "../../Components/meta/Meta";
 import { setCredentials } from "../../slices/authSlice";
 import { useGetMyOrdersQuery } from "../../slices/orderApiSlice";
 import { useProfileMutation } from "../../slices/usersApiSlice";
 import { getErrorMessage, showErrorToast } from "../../utils/errorUtils";
 import { updateProfileSchema } from "../../validators/authValidators";
-import Meta from "../../Components/meta/Meta";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -149,7 +150,7 @@ const ProfilePage = () => {
           ) : orders.length === 0 ? (
             <Message>
               You haven&apos;t placed any orders yet.{" "}
-              <a href="/">Browse products</a>
+              <Link to="/">Browse products</Link>
             </Message>
           ) : (
             <Table striped hover responsive>

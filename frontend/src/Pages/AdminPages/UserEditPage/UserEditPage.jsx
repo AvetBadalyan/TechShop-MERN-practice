@@ -8,24 +8,19 @@ import { toast } from "react-toastify";
 import FormContainer from "../../../Components/FormContainer/FormContainer";
 import Loader from "../../../Components/Loader/Loader";
 import Message from "../../../Components/Message/Message";
+import Meta from "../../../Components/meta/Meta";
 import {
   useGetUserDetailsQuery,
   useUpdateUserMutation,
 } from "../../../slices/usersApiSlice";
 import { getErrorMessage, showErrorToast } from "../../../utils/errorUtils";
-import { userEditSchema } from "../../../validators/productValidators";
-import Meta from "../../../Components/meta/Meta";
+import { userEditSchema } from "../../../validators/authValidators";
 
 const UserEditPage = () => {
   const { id: userId } = useParams();
   const navigate = useNavigate();
 
-  const {
-    data: user,
-    isLoading,
-    error,
-    refetch,
-  } = useGetUserDetailsQuery(userId);
+  const { data: user, isLoading, error } = useGetUserDetailsQuery(userId);
   const [updateUser, { isLoading: loadingUpdate }] = useUpdateUserMutation();
 
   const {
@@ -45,7 +40,6 @@ const UserEditPage = () => {
     try {
       await updateUser({ userId, ...data }).unwrap();
       toast.success("User updated successfully");
-      refetch();
       navigate("/admin/userlist");
     } catch (err) {
       showErrorToast(err);

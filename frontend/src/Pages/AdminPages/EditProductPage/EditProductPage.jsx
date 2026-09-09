@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import FormContainer from "../../../Components/FormContainer/FormContainer";
 import Loader from "../../../Components/Loader/Loader";
 import Message from "../../../Components/Message/Message";
+import Meta from "../../../Components/meta/Meta";
 import {
   useGetProductDetailsQuery,
   useUpdateProductMutation,
@@ -15,7 +16,6 @@ import {
 } from "../../../slices/productsApiSlice.js";
 import { getErrorMessage, showErrorToast } from "../../../utils/errorUtils";
 import { productSchema } from "../../../validators/productValidators";
-import Meta from "../../../Components/meta/Meta";
 
 const EditProductPage = () => {
   const { id: productId } = useParams();
@@ -24,7 +24,6 @@ const EditProductPage = () => {
   const {
     data: product,
     isLoading,
-    refetch,
     error,
   } = useGetProductDetailsQuery(productId);
 
@@ -63,7 +62,6 @@ const EditProductPage = () => {
       toast.success("Product updated successfully", {
         toastId: "product-updated",
       });
-      refetch();
       navigate("/admin/productlist");
     } catch (err) {
       showErrorToast(err);
@@ -89,8 +87,8 @@ const EditProductPage = () => {
         Go Back
       </Link>
       <FormContainer>
-        <h1>Edit Product</h1>
         <Meta title="Edit Product | TechShop Admin" />
+        <h1>Edit Product</h1>
         {loadingUpdate && <Loader />}
         {isLoading ? (
           <Loader />

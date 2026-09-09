@@ -70,8 +70,8 @@ const CreateProductPage = () => {
         Go Back
       </Link>
       <FormContainer>
-        <h1>Create Product</h1>
         <Meta title="Create Product | TechShop Admin" />
+        <h1>Create Product</h1>
         {loadingCreate && <Loader />}
         <Form onSubmit={handleSubmit(submitHandler)} noValidate>
           <Form.Group className="my-2" controlId="name">

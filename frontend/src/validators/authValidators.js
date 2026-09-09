@@ -72,3 +72,12 @@ export const shippingSchema = z.object({
   postalCode: z.string().min(1, "Postal code is required"),
   country: z.string().min(2, "Country is required"),
 });
+
+export const userEditSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z
+    .string()
+    .min(1, "Email is required")
+    .email("Enter a valid email address"),
+  isAdmin: z.boolean(),
+});
