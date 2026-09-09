@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import CheckoutSteps from "../../Components/CheckoutSteps/CheckoutSteps";
 import FormContainer from "../../Components/FormContainer/FormContainer";
 import { savePaymentMethod } from "../../slices/cartSlice";
+import Meta from "../../Components/meta/Meta";
 
 const PaymentPage = () => {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ const PaymentPage = () => {
 
   return (
     <FormContainer>
+      <Meta title="Payment | TechShop" />
       <CheckoutSteps step1 step2 step3 />
       <h1>Payment Method</h1>
       <Form onSubmit={submitHandler}>

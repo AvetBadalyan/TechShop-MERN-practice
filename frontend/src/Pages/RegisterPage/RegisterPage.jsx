@@ -1,66 +1,68 @@
-import { useEffect, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
 import FormContainer from "../../Components/FormContainer/FormContainer";
 import Loader from "../../Components/Loader/Loader";
 import { setCredentials } from "../../slices/authSlice";
 import { useRegisterMutation } from "../../slices/usersApiSlice";
 import { showErrorToast } from "../../utils/errorUtils";
+import { registerSchema } from "../../validators/authValidators";
+import Meta from "../../Components/meta/Meta";
 
 const RegisterPage = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [register, { isLoading }] = useRegisterMutation();
-
   const { userInfo } = useSelector((state) => state.auth);
 
   const { search } = useLocation();
-  const sp = new URLSearchParams(search);
-  const redirect = sp.get("redirect") || "/";
+  const redirect = new URLSearchParams(search).get("redirect") || "/";
 
   useEffect(() => {
-    if (userInfo) {
-      navigate(redirect);
-    }
+    if (userInfo) navigate(redirect);
   }, [navigate, redirect, userInfo]);
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
+  const {
+    register: registerField,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: zodResolver(registerSchema) });
 
-    if (password !== confirmPassword) {
-      toast.error("Passwords do not match");
-    } else {
-      try {
-        const res = await register({ name, email, password }).unwrap();
-        dispatch(setCredentials({ ...res }));
-        navigate(redirect);
-      } catch (err) {
-        showErrorToast(err);
-      }
+  const submitHandler = async (data) => {
+    try {
+      const res = await register({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      }).unwrap();
+      dispatch(setCredentials(res));
+      navigate(redirect);
+    } catch (err) {
+      showErrorToast(err);
     }
   };
 
   return (
     <FormContainer>
+      <Meta title="Register | TechShop" />
       <h1>Register</h1>
-      <Form onSubmit={submitHandler}>
+      <Form onSubmit={handleSubmit(submitHandler)} noValidate>
         <Form.Group className="my-2" controlId="name">
           <Form.Label>Name</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          ></Form.Control>
+            isInvalid={!!errors.name}
+            {...registerField("name")}
+          />
+          <Form.Control.Feedback type="invalid">
+            {errors.name?.message}
+          </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className="my-2" controlId="email">
@@ -68,9 +70,12 @@ const RegisterPage = () => {
           <Form.Control
             type="email"
             placeholder="Enter email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          ></Form.Control>
+            isInvalid={!!errors.email}
+            {...registerField("email")}
+          />
+          <Form.Control.Feedback type="invalid">
+            {errors.email?.message}
+          </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className="my-2" controlId="password">
@@ -78,18 +83,25 @@ const RegisterPage = () => {
           <Form.Control
             type="password"
             placeholder="Enter password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          ></Form.Control>
+            isInvalid={!!errors.password}
+            {...registerField("password")}
+          />
+          <Form.Control.Feedback type="invalid">
+            {errors.password?.message}
+          </Form.Control.Feedback>
         </Form.Group>
+
         <Form.Group className="my-2" controlId="confirmPassword">
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type="password"
             placeholder="Confirm password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          ></Form.Control>
+            isInvalid={!!errors.confirmPassword}
+            {...registerField("confirmPassword")}
+          />
+          <Form.Control.Feedback type="invalid">
+            {errors.confirmPassword?.message}
+          </Form.Control.Feedback>
         </Form.Group>
 
         <Button

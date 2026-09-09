@@ -8,6 +8,7 @@ import {
 
 import Loader from "../../../Components/Loader/Loader";
 import Message from "../../../Components/Message/Message";
+import Meta from "../../../Components/meta/Meta";
 import { useGetDashboardStatsQuery } from "../../../slices/orderApiSlice";
 import { getErrorMessage } from "../../../utils/errorUtils";
 import "./DashboardPage.css";
@@ -37,6 +38,7 @@ const DashboardPage = () => {
 
   return (
     <>
+      <Meta title="Dashboard | TechShop Admin" />
       <h1>Dashboard</h1>
 
       {/* Summary stat cards */}

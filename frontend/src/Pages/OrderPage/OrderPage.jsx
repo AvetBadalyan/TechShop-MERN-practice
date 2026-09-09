@@ -14,6 +14,7 @@ import {
 } from "../../slices/orderApiSlice";
 import { getErrorMessage, showErrorToast } from "../../utils/errorUtils";
 import { handleImageError } from "../../utils/imageUtils";
+import Meta from "../../Components/meta/Meta";
 
 const OrderPage = () => {
   const { id: orderId } = useParams();
@@ -106,6 +107,7 @@ const OrderPage = () => {
     <Message variant="danger">{getErrorMessage(error)}</Message>
   ) : (
     <>
+      <Meta title={`Order ${order._id.slice(-8)} | TechShop`} />
       <h1>Order {order._id}</h1>
       <Row>
         <Col md={8}>

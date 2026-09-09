@@ -33,6 +33,7 @@ import ProfilePage from "./Pages/ProfilePage/ProfilePage.jsx";
 import RegisterPage from "./Pages/RegisterPage/RegisterPage.jsx";
 import ShippingPage from "./Pages/ShippingPage/ShippingPage.jsx";
 import store from "./store/store.js";
+import NotFoundPage from "./Pages/NotFoundPage/NotFoundPage.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -66,6 +67,7 @@ const router = createBrowserRouter(
         <Route path="/admin/userlist" element={<UserListPage />} />
         <Route path="/admin/user/:id/edit" element={<UserEditPage />} />
       </Route>
+      <Route path="*" element={<NotFoundPage />} />
     </Route>
   )
 );

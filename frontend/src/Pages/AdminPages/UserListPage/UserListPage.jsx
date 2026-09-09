@@ -10,6 +10,7 @@ import {
   useGetUsersQuery,
 } from "../../../slices/usersApiSlice";
 import { getErrorMessage, showErrorToast } from "../../../utils/errorUtils";
+import Meta from "../../../Components/meta/Meta";
 
 const UserListPage = () => {
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();
@@ -39,6 +40,7 @@ const UserListPage = () => {
 
   return (
     <>
+      <Meta title="Users | TechShop Admin" />
       <h1>Users</h1>
       {loadingDelete && <Loader />}
       {isLoading ? (

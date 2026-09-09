@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -8,33 +10,33 @@ import Loader from "../../Components/Loader/Loader";
 import { setCredentials } from "../../slices/authSlice";
 import { useLoginMutation } from "../../slices/usersApiSlice";
 import { showErrorToast } from "../../utils/errorUtils";
+import { loginSchema } from "../../validators/authValidators";
+import Meta from "../../Components/meta/Meta";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [login, { isLoading }] = useLoginMutation();
-
   const { userInfo } = useSelector((state) => state.auth);
 
   const { search } = useLocation();
-  const sp = new URLSearchParams(search);
-  const redirect = sp.get("redirect") || "/";
+  const redirect = new URLSearchParams(search).get("redirect") || "/";
 
   useEffect(() => {
-    if (userInfo) {
-      navigate(redirect);
-    }
+    if (userInfo) navigate(redirect);
   }, [navigate, redirect, userInfo]);
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: zodResolver(loginSchema) });
+
+  const submitHandler = async (data) => {
     try {
-      const res = await login({ email, password }).unwrap();
-      dispatch(setCredentials({ ...res }));
+      const res = await login(data).unwrap();
+      dispatch(setCredentials(res));
       navigate(redirect);
     } catch (err) {
       showErrorToast(err);
@@ -43,17 +45,21 @@ const LoginPage = () => {
 
   return (
     <FormContainer>
+      <Meta title="Sign In | TechShop" />
       <h1>Sign In</h1>
 
-      <Form onSubmit={submitHandler}>
+      <Form onSubmit={handleSubmit(submitHandler)} noValidate>
         <Form.Group className="my-2" controlId="email">
           <Form.Label>Email Address</Form.Label>
           <Form.Control
             type="email"
             placeholder="Enter email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          ></Form.Control>
+            isInvalid={!!errors.email}
+            {...register("email")}
+          />
+          <Form.Control.Feedback type="invalid">
+            {errors.email?.message}
+          </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className="my-2" controlId="password">
@@ -61,9 +67,12 @@ const LoginPage = () => {
           <Form.Control
             type="password"
             placeholder="Enter password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          ></Form.Control>
+            isInvalid={!!errors.password}
+            {...register("password")}
+          />
+          <Form.Control.Feedback type="invalid">
+            {errors.password?.message}
+          </Form.Control.Feedback>
         </Form.Group>
 
         <Button

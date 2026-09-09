@@ -12,6 +12,7 @@ import {
   useGetProductsQuery,
 } from "../../../slices/productsApiSlice";
 import { getErrorMessage, showErrorToast } from "../../../utils/errorUtils";
+import Meta from "../../../Components/meta/Meta";
 
 const ProductListPage = () => {
   const { pageNumber } = useParams();
@@ -48,6 +49,7 @@ const ProductListPage = () => {
     <>
       <Row className="align-items-center mb-2">
         <Col>
+          <Meta title="Products | TechShop Admin" />
           <h1>Products</h1>
         </Col>
         <Col className="text-end">

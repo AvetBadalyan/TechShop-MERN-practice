@@ -9,6 +9,7 @@ import { clearCartItems } from "../../slices/cartSlice";
 import { useCreateOrderMutation } from "../../slices/orderApiSlice";
 import { showErrorToast } from "../../utils/errorUtils";
 import { handleImageError } from "../../utils/imageUtils";
+import Meta from "../../Components/meta/Meta";
 
 const PlaceOrderPage = () => {
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ const PlaceOrderPage = () => {
 
   return (
     <>
+      <Meta title="Place Order | TechShop" />
       <CheckoutSteps step1 step2 step3 step4 />
       <Row>
         <Col md={8}>

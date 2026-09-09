@@ -14,6 +14,7 @@ import Message from "../../Components/Message/Message";
 import { addToCart, removeFromCart } from "../../slices/cartSlice";
 import { generateQuantityOptions } from "../../utils/cartUtils";
 import { handleImageError } from "../../utils/imageUtils";
+import Meta from "../../Components/meta/Meta";
 
 const CartPage = () => {
   const navigate = useNavigate();
@@ -43,86 +44,90 @@ const CartPage = () => {
   };
 
   return (
-    <Row>
-      <Col md={8}>
-        <h1>Shopping Cart</h1>
-        {cartItems.length === 0 ? (
-          <Message>
-            Your cart is empty <Link to="/">Go Back</Link>
-          </Message>
-        ) : (
-          <ListGroup variant="flush">
-            {cartItems.map((item) => (
-              <ListGroup.Item key={item._id}>
-                <Row>
-                  <Col md={2}>
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      onError={handleImageError}
-                      fluid
-                      rounded
-                    />
-                  </Col>
-                  <Col md={3}>
-                    <Link to={`/product/${item._id}`}>{item.name}</Link>
-                  </Col>
-                  <Col md={2}>${item.price}</Col>
-                  <Col md={2}>
-                    <Form.Control
-                      as="select"
-                      value={item.quantity}
-                      onChange={(e) =>
-                        addToCartHandler(item, Number(e.target.value))
-                      }
-                    >
-                      {generateQuantityOptions(item.countInStock)}
-                    </Form.Control>
-                  </Col>
-                  <Col md={2}>
-                    <Button
-                      type="button"
-                      variant="light"
-                      onClick={() => removeFromCartHandler(item._id)}
-                    >
-                      <FaTrash />
-                    </Button>
-                  </Col>
-                </Row>
+    <>
+      <Meta title="Shopping Cart | TechShop" />
+      <Row>
+        <Col md={8}>
+          <h1>Shopping Cart</h1>
+          {cartItems.length === 0 ? (
+            <Message>
+              Your cart is empty <Link to="/">Go Back</Link>
+            </Message>
+          ) : (
+            <ListGroup variant="flush">
+              {cartItems.map((item) => (
+                <ListGroup.Item key={item._id}>
+                  <Row>
+                    <Col md={2}>
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        onError={handleImageError}
+                        fluid
+                        rounded
+                      />
+                    </Col>
+                    <Col md={3}>
+                      <Link to={`/product/${item._id}`}>{item.name}</Link>
+                    </Col>
+                    <Col md={2}>${item.price}</Col>
+                    <Col md={2}>
+                      <Form.Control
+                        as="select"
+                        value={item.quantity}
+                        onChange={(e) =>
+                          addToCartHandler(item, Number(e.target.value))
+                        }
+                      >
+                        {generateQuantityOptions(item.countInStock)}
+                      </Form.Control>
+                    </Col>
+                    <Col md={2}>
+                      <Button
+                        type="button"
+                        variant="light"
+                        onClick={() => removeFromCartHandler(item._id)}
+                      >
+                        <FaTrash />
+                      </Button>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          )}
+        </Col>
+        <Col md={4}>
+          <Card>
+            <ListGroup variant="flush">
+              <ListGroup.Item>
+                <h2>
+                  Subtotal (
+                  {cartItems.reduce((acc, item) => acc + item.quantity, 0)})
+                  items
+                </h2>
+                <p className="mb-0">
+                  $
+                  {cartItems
+                    .reduce((acc, item) => acc + item.quantity * item.price, 0)
+                    .toFixed(2)}
+                </p>
               </ListGroup.Item>
-            ))}
-          </ListGroup>
-        )}
-      </Col>
-      <Col md={4}>
-        <Card>
-          <ListGroup variant="flush">
-            <ListGroup.Item>
-              <h2>
-                Subtotal (
-                {cartItems.reduce((acc, item) => acc + item.quantity, 0)}) items
-              </h2>
-              <p className="mb-0">
-                $
-                {cartItems
-                  .reduce((acc, item) => acc + item.quantity * item.price, 0)
-                  .toFixed(2)}
-              </p>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Button
-                type="button"
-                className="btn-block"
-                disabled={cartItems.length === 0}
-                onClick={checkoutHandler}
-              >
-                Proceed To Checkout
-              </Button>
-            </ListGroup.Item>
-          </ListGroup>
-        </Card>
-      </Col>
-    </Row>
+              <ListGroup.Item>
+                <Button
+                  type="button"
+                  className="btn-block"
+                  disabled={cartItems.length === 0}
+                  onClick={checkoutHandler}
+                >
+                  Proceed To Checkout
+                </Button>
+              </ListGroup.Item>
+            </ListGroup>
+          </Card>
+        </Col>
+      </Row>
+    </>
   );
 };
 

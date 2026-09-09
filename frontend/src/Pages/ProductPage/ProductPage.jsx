@@ -167,7 +167,9 @@ const ProductPage = () => {
               <ListGroup.Item key={review._id}>
                 <strong>{review.name}</strong>
                 <Rating value={review.rating} />
-                <p className="mb-1">{review.createdAt.substring(0, 10)}</p>
+                <p className="mb-1">
+                  {new Date(review.createdAt).toLocaleDateString()}
+                </p>
                 <p>{review.comment}</p>
               </ListGroup.Item>
             ))}

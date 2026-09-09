@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -12,17 +14,12 @@ import {
   useUploadProductImageMutation,
 } from "../../../slices/productsApiSlice.js";
 import { getErrorMessage, showErrorToast } from "../../../utils/errorUtils";
+import { productSchema } from "../../../validators/productValidators";
+import Meta from "../../../Components/meta/Meta";
 
 const EditProductPage = () => {
   const { id: productId } = useParams();
-
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
-  const [image, setImage] = useState("");
-  const [brand, setBrand] = useState("");
-  const [category, setCategory] = useState("");
-  const [countInStock, setCountInStock] = useState(0);
-  const [description, setDescription] = useState("");
+  const navigate = useNavigate();
 
   const {
     data: product,
@@ -33,25 +30,36 @@ const EditProductPage = () => {
 
   const [updateProduct, { isLoading: loadingUpdate }] =
     useUpdateProductMutation();
-
   const [uploadProductImage, { isLoading: loadingUpload }] =
     useUploadProductImageMutation();
 
-  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm({ resolver: zodResolver(productSchema) });
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
+  // Populate form once the product loads
+  useEffect(() => {
+    if (product) {
+      reset({
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        brand: product.brand,
+        category: product.category,
+        countInStock: product.countInStock,
+        description: product.description,
+      });
+    }
+  }, [product, reset]);
+
+  const submitHandler = async (data) => {
     try {
-      await updateProduct({
-        productId,
-        name,
-        price,
-        image,
-        brand,
-        category,
-        description,
-        countInStock,
-      }).unwrap();
+      await updateProduct({ productId, ...data }).unwrap();
       toast.success("Product updated successfully", {
         toastId: "product-updated",
       });
@@ -62,25 +70,14 @@ const EditProductPage = () => {
     }
   };
 
-  useEffect(() => {
-    if (product) {
-      setName(product.name);
-      setPrice(product.price);
-      setImage(product.image);
-      setBrand(product.brand);
-      setCategory(product.category);
-      setCountInStock(product.countInStock);
-      setDescription(product.description);
-    }
-  }, [product]);
-
   const uploadFileHandler = async (e) => {
     const formData = new FormData();
     formData.append("image", e.target.files[0]);
     try {
       const res = await uploadProductImage(formData).unwrap();
       toast.success(res.message, { toastId: "image-uploaded" });
-      setImage(res.image);
+      // Update the image field value inside RHF
+      setValue("image", res.image, { shouldValidate: true });
     } catch (err) {
       showErrorToast(err);
     }
@@ -93,31 +90,39 @@ const EditProductPage = () => {
       </Link>
       <FormContainer>
         <h1>Edit Product</h1>
+        <Meta title="Edit Product | TechShop Admin" />
         {loadingUpdate && <Loader />}
         {isLoading ? (
           <Loader />
         ) : error ? (
           <Message variant="danger">{getErrorMessage(error)}</Message>
         ) : (
-          <Form onSubmit={submitHandler}>
+          <Form onSubmit={handleSubmit(submitHandler)} noValidate>
             <Form.Group className="my-2" controlId="name">
               <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              ></Form.Control>
+                isInvalid={!!errors.name}
+                {...register("name")}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.name?.message}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="my-2" controlId="price">
               <Form.Label>Price</Form.Label>
               <Form.Control
                 type="number"
+                step="0.01"
                 placeholder="Enter price"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-              ></Form.Control>
+                isInvalid={!!errors.price}
+                {...register("price")}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.price?.message}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="my-2" controlId="image">
@@ -125,16 +130,22 @@ const EditProductPage = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter image url"
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-              ></Form.Control>
+                isInvalid={!!errors.image}
+                {...register("image")}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.image?.message}
+              </Form.Control.Feedback>
               <Form.Control
-                label="Choose File"
-                onChange={uploadFileHandler}
                 type="file"
+                onChange={uploadFileHandler}
                 className="mt-2"
-              ></Form.Control>
+              />
               {loadingUpload && <Loader />}
+              {/* Show the current image URL as a read-only hint */}
+              {watch("image") && (
+                <Form.Text className="text-muted">{watch("image")}</Form.Text>
+              )}
             </Form.Group>
 
             <Form.Group className="my-2" controlId="brand">
@@ -142,9 +153,12 @@ const EditProductPage = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter brand"
-                value={brand}
-                onChange={(e) => setBrand(e.target.value)}
-              ></Form.Control>
+                isInvalid={!!errors.brand}
+                {...register("brand")}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.brand?.message}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="my-2" controlId="countInStock">
@@ -152,9 +166,12 @@ const EditProductPage = () => {
               <Form.Control
                 type="number"
                 placeholder="Enter count in stock"
-                value={countInStock}
-                onChange={(e) => setCountInStock(e.target.value)}
-              ></Form.Control>
+                isInvalid={!!errors.countInStock}
+                {...register("countInStock")}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.countInStock?.message}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="my-2" controlId="category">
@@ -162,9 +179,12 @@ const EditProductPage = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter category"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              ></Form.Control>
+                isInvalid={!!errors.category}
+                {...register("category")}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.category?.message}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="my-2" controlId="description">
@@ -173,9 +193,12 @@ const EditProductPage = () => {
                 as="textarea"
                 rows={3}
                 placeholder="Enter description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              ></Form.Control>
+                isInvalid={!!errors.description}
+                {...register("description")}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.description?.message}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Button type="submit" variant="primary" className="mt-3">

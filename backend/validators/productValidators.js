@@ -4,7 +4,7 @@ import { z } from "zod";
 // as strings from form inputs.
 export const productSchema = z.object({
   name: z.string().trim().min(1, "Name is required"),
-  price: z.coerce.number().min(0, "Price must be 0 or greater"),
+  price: z.coerce.number().positive("Price must be greater than 0"),
   description: z.string().trim().min(1, "Description is required"),
   image: z.string().trim().min(1).optional(),
   brand: z.string().trim().min(1, "Brand is required"),

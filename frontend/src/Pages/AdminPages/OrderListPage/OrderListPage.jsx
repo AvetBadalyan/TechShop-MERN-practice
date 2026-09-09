@@ -6,6 +6,7 @@ import Loader from "../../../Components/Loader/Loader";
 import Message from "../../../Components/Message/Message";
 import { useGetOrdersQuery } from "../../../slices/orderApiSlice";
 import { getErrorMessage } from "../../../utils/errorUtils";
+import Meta from "../../../Components/meta/Meta";
 
 const OrderListPage = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery();
@@ -16,6 +17,7 @@ const OrderListPage = () => {
 
   return (
     <>
+      <Meta title="Orders | TechShop Admin" />
       <h1>Orders</h1>
       <Table striped hover responsive>
         <thead>
@@ -36,18 +38,18 @@ const OrderListPage = () => {
                 <span className="id-cell">…{order._id.slice(-8)}</span>
               </td>
               <td>{order.user?.name ?? "—"}</td>
-              <td>{order.createdAt.substring(0, 10)}</td>
+              <td>{new Date(order.createdAt).toLocaleDateString()}</td>
               <td>${order.totalPrice}</td>
               <td>
                 {order.isPaid ? (
-                  order.paidAt.substring(0, 10)
+                  new Date(order.paidAt).toLocaleDateString()
                 ) : (
                   <FaTimes className="text-danger" />
                 )}
               </td>
               <td>
                 {order.isDelivered ? (
-                  order.deliveredAt.substring(0, 10)
+                  new Date(order.deliveredAt).toLocaleDateString()
                 ) : (
                   <FaTimes className="text-danger" />
                 )}
