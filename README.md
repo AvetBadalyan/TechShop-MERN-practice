@@ -2,7 +2,7 @@
 
 A full-stack e-commerce store built with the MERN stack. Browse products, search and filter by category and price, manage a cart, check out with PayPal, and administer products, users, and orders through a dedicated admin dashboard.
 
-**Live demo:** https://avets.techshop.vercel.app
+**Live demo:** https://avets-techshop.vercel.app
 
 **Demo admin login** — explore the full admin area (dashboard, orders, products, users). Write operations are disabled on this account so the shared demo data stays intact.
 
