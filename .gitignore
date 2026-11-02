@@ -29,3 +29,5 @@ yarn-error.log*
 
 # API tests
 http
+.vercel
+.env*
