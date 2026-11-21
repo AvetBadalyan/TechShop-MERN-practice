@@ -46,7 +46,7 @@ const HomePage = () => {
       />
 
       {isLoading ? (
-        <Row>
+        <Row className="g-4">
           {[...Array(8)].map((_, i) => (
             <Col key={i} sm={12} md={6} lg={4} xl={3}>
               <ProductCardSkeleton />

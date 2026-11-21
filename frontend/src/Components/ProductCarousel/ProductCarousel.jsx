@@ -4,12 +4,16 @@ import { useGetTopProductsQuery } from "../../slices/productsApiSlice";
 import { getErrorMessage } from "../../utils/errorUtils";
 import { handleImageError } from "../../utils/imageUtils";
 import Message from "../Message/Message";
+import "../ProductCardSkeleton/ProductCardSkeleton.css";
 import "./ProductCarousel.css";
 
 const ProductCarousel = () => {
   const { data: products, isLoading, error } = useGetTopProductsQuery();
 
-  if (isLoading) return null;
+  // Reserve the carousel's space while loading so the content below doesn't
+  // jump down when it appears (CLS).
+  if (isLoading)
+    return <div className="hero-carousel-placeholder skeleton mb-5" />;
   if (error)
     return <Message variant="danger">{getErrorMessage(error)}</Message>;
 
@@ -52,6 +56,9 @@ const ProductCarousel = () => {
                   aria-hidden="true"
                   onError={handleImageError}
                   loading={index === 0 ? "eager" : "lazy"}
+                  width="640"
+                  height="510"
+                  fetchPriority={index === 0 ? "high" : undefined}
                 />
               </div>
             </Link>

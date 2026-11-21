@@ -1,5 +1,5 @@
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
-import React from "react";
+import React, { lazy } from "react";
 import ReactDOM from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
 import { Provider } from "react-redux";
@@ -13,27 +13,51 @@ import App from "./App.jsx";
 import "./assets/styles/bootstrap.custom.css";
 import "./assets/styles/theme.css";
 import AdminRoute from "./Components/AdminRoute/AdminRoute.jsx";
+import ErrorBoundary from "./Components/ErrorBoundary/ErrorBoundary.jsx";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute.jsx";
 import "./index.css";
-import CreateProductPage from "./Pages/AdminPages/CreateProductPage/CreateProductPage.jsx";
-import DashboardPage from "./Pages/AdminPages/DashboardPage/DashboardPage.jsx";
-import EditProductPage from "./Pages/AdminPages/EditProductPage/EditProductPage.jsx";
-import OrderListPage from "./Pages/AdminPages/OrderListPage/OrderListPage.jsx";
-import ProductListPage from "./Pages/AdminPages/ProductListPages/ProductListPages.jsx";
-import UserEditPage from "./Pages/AdminPages/UserEditPage/UserEditPage.jsx";
-import UserListPage from "./Pages/AdminPages/UserListPage/UserListPage.jsx";
-import CartPage from "./Pages/CartPage/CartPage.jsx";
 import HomePage from "./Pages/HomePage/HomePage.jsx";
-import LoginPage from "./Pages/LoginPage/LoginPage.jsx";
-import OrderPage from "./Pages/OrderPage/OrderPage.jsx";
-import PaymentPage from "./Pages/PaymentPage/PaymentPage.jsx";
-import PlaceOrderPage from "./Pages/PlaceOrderPage/PlaceOrderPage.jsx";
-import ProductPage from "./Pages/ProductPage/ProductPage.jsx";
-import ProfilePage from "./Pages/ProfilePage/ProfilePage.jsx";
-import RegisterPage from "./Pages/RegisterPage/RegisterPage.jsx";
-import ShippingPage from "./Pages/ShippingPage/ShippingPage.jsx";
 import store from "./store/store.js";
 import NotFoundPage from "./Pages/NotFoundPage/NotFoundPage.jsx";
+
+// Route pages are code-split so the initial bundle only carries the shell
+// and the home page. <App /> provides the Suspense fallback.
+const CreateProductPage = lazy(
+  () => import("./Pages/AdminPages/CreateProductPage/CreateProductPage.jsx")
+);
+const DashboardPage = lazy(
+  () => import("./Pages/AdminPages/DashboardPage/DashboardPage.jsx")
+);
+const EditProductPage = lazy(
+  () => import("./Pages/AdminPages/EditProductPage/EditProductPage.jsx")
+);
+const OrderListPage = lazy(
+  () => import("./Pages/AdminPages/OrderListPage/OrderListPage.jsx")
+);
+const ProductListPage = lazy(
+  () => import("./Pages/AdminPages/ProductListPages/ProductListPages.jsx")
+);
+const UserEditPage = lazy(
+  () => import("./Pages/AdminPages/UserEditPage/UserEditPage.jsx")
+);
+const UserListPage = lazy(
+  () => import("./Pages/AdminPages/UserListPage/UserListPage.jsx")
+);
+const CartPage = lazy(() => import("./Pages/CartPage/CartPage.jsx"));
+const LoginPage = lazy(() => import("./Pages/LoginPage/LoginPage.jsx"));
+const OrderPage = lazy(() => import("./Pages/OrderPage/OrderPage.jsx"));
+const PaymentPage = lazy(() => import("./Pages/PaymentPage/PaymentPage.jsx"));
+const PlaceOrderPage = lazy(
+  () => import("./Pages/PlaceOrderPage/PlaceOrderPage.jsx")
+);
+const ProductPage = lazy(() => import("./Pages/ProductPage/ProductPage.jsx"));
+const ProfilePage = lazy(() => import("./Pages/ProfilePage/ProfilePage.jsx"));
+const RegisterPage = lazy(
+  () => import("./Pages/RegisterPage/RegisterPage.jsx")
+);
+const ShippingPage = lazy(
+  () => import("./Pages/ShippingPage/ShippingPage.jsx")
+);
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -78,7 +102,9 @@ root.render(
     <HelmetProvider>
       <Provider store={store}>
         <PayPalScriptProvider deferLoading={true}>
-          <RouterProvider router={router} />
+          <ErrorBoundary>
+            <RouterProvider router={router} />
+          </ErrorBoundary>
         </PayPalScriptProvider>
       </Provider>
     </HelmetProvider>

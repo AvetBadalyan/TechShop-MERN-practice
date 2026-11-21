@@ -58,6 +58,7 @@ const Header = () => {
                   {cartItems.length > 0 && (
                     <Badge pill className="cart-badge">
                       {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
+                      <span className="visually-hidden"> items in cart</span>
                     </Badge>
                   )}
                 </Nav.Link>

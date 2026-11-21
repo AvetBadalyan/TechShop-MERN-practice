@@ -2,8 +2,8 @@ import { Helmet } from "react-helmet-async";
 
 const Meta = ({
   title = "Welcome To Avet's TechShop",
-  description = "Here you find best electronics for you and your family",
-  keywords = "electronics, buy electronics, best electronics",
+  description = "Shop the latest electronics, gadgets, and tech accessories. Find smartphones, laptops, gaming gear, and more at competitive prices.",
+  keywords = "electronics, buy electronics, tech shop, smartphones, laptops, gaming, headphones, accessories",
 }) => {
   return (
     <Helmet>
