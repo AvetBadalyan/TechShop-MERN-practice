@@ -355,13 +355,3 @@ a:focus-visible {
   color: var(--text-muted);
   margin: 0;
 }
-
-
-/* ============================================================
-   Product grid - prevent CLS during load
-   ============================================================ */
-
-/* Reserve minimum height for product rows to prevent layout shift */
-.row.g-4 {
-  min-height: 400px;
-}

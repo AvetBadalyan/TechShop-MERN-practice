@@ -13,7 +13,6 @@ import App from "./App.jsx";
 import "./assets/styles/bootstrap.custom.css";
 import "./assets/styles/theme.css";
 import AdminRoute from "./Components/AdminRoute/AdminRoute.jsx";
-import ErrorBoundary from "./Components/ErrorBoundary/ErrorBoundary.jsx";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute.jsx";
 import "./index.css";
 import CreateProductPage from "./Pages/AdminPages/CreateProductPage/CreateProductPage.jsx";
@@ -79,9 +78,7 @@ root.render(
     <HelmetProvider>
       <Provider store={store}>
         <PayPalScriptProvider deferLoading={true}>
-          <ErrorBoundary>
-            <RouterProvider router={router} />
-          </ErrorBoundary>
+          <RouterProvider router={router} />
         </PayPalScriptProvider>
       </Provider>
     </HelmetProvider>

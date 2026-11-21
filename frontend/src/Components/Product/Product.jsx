@@ -20,8 +20,6 @@ const Product = ({ product }) => {
           className="product-image"
           onError={handleImageError}
           loading="lazy"
-          width="640"
-          height="510"
         />
         {outOfStock && (
           <span className="product-stock-badge badge-out">Out of Stock</span>
