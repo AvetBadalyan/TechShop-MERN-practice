@@ -4,14 +4,14 @@ import { FaRegStar, FaStar, FaStarHalfAlt } from "react-icons/fa";
 // full star if the rating reaches it, half star if it's within half a point,
 // empty star otherwise.
 const starFor = (position, value) => {
-  if (value >= position) return <FaStar />;
-  if (value >= position - 0.5) return <FaStarHalfAlt />;
-  return <FaRegStar />;
+  if (value >= position) return <FaStar aria-hidden="true" />;
+  if (value >= position - 0.5) return <FaStarHalfAlt aria-hidden="true" />;
+  return <FaRegStar aria-hidden="true" />;
 };
 
 const Rating = ({ value, text }) => {
   return (
-    <div className="rating">
+    <div className="rating" role="img" aria-label={`Rating: ${value} out of 5 stars`}>
       {[1, 2, 3, 4, 5].map((position) => (
         <span key={position}>{starFor(position, value)}</span>
       ))}

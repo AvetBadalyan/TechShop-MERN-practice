@@ -52,6 +52,9 @@ const ProductCarousel = () => {
                   aria-hidden="true"
                   onError={handleImageError}
                   loading={index === 0 ? "eager" : "lazy"}
+                  width="640"
+                  height="510"
+                  fetchPriority={index === 0 ? "high" : "auto"}
                 />
               </div>
             </Link>

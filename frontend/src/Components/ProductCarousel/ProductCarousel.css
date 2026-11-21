@@ -22,6 +22,8 @@
       transparent 60%
     ),
     linear-gradient(120deg, #0c0d13 0%, #14161d 100%);
+  /* Reserve minimum height to prevent CLS during load */
+  min-height: 400px;
 }
 
 /* ---- Smoother cross-fade between slides ----
@@ -219,6 +221,12 @@
     width var(--dur) var(--ease),
     background-color var(--dur) var(--ease),
     transform var(--dur) var(--ease);
+  /* Minimum touch target size for accessibility */
+  min-width: 44px;
+  min-height: 44px;
+  /* Visual size remains small but touch area is large */
+  background-clip: content-box;
+  padding: 18px 16px;
 }
 
 /* Enlarged touch target via pseudo-element (44x44px minimum) */
@@ -257,6 +265,10 @@
 
 /* ---- Responsive: stack on small screens ---- */
 @media (max-width: 768px) {
+  .hero-carousel .carousel-inner {
+    min-height: 450px;
+  }
+
   .hero-slide {
     grid-template-columns: 1fr;
     text-align: center;
