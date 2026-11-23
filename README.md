@@ -11,6 +11,15 @@ Email:    avet@gmail.com
 Password: 123456
 ```
 
+**PayPal sandbox payment** — to test the checkout flow, place an order and click the yellow **PayPal** button on the order page. A PayPal popup opens. Log in with the sandbox buyer account:
+
+```
+Email:    sb-a4pv629509977@personal.example.com
+Password: zO%>Sh$3
+```
+
+It's a PayPal sandbox (test) account, so no real money is involved.
+
 ---
 
 ## Tech Stack

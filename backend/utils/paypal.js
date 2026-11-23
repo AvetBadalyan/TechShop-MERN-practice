@@ -1,5 +1,3 @@
-const { PAYPAL_CLIENT_ID, PAYPAL_APP_SECRET, PAYPAL_API_URL } = process.env;
-
 /**
  * Fetches an access token from the PayPal API.
  * @see {@link https://developer.paypal.com/reference/get-an-access-token/#link-getanaccesstoken}
@@ -9,6 +7,10 @@ const { PAYPAL_CLIENT_ID, PAYPAL_APP_SECRET, PAYPAL_API_URL } = process.env;
  *
  */
 async function getPayPalAccessToken() {
+  // Read inside the function so .env has already been loaded
+  // (imported files run before app.js calls dotenv.config()).
+  const { PAYPAL_CLIENT_ID, PAYPAL_APP_SECRET, PAYPAL_API_URL } = process.env;
+
   // Authorization header requires base64 encoding
   const auth = Buffer.from(PAYPAL_CLIENT_ID + ":" + PAYPAL_APP_SECRET).toString(
     "base64"
@@ -70,6 +72,7 @@ export async function checkIfNewTransaction(orderModel, paypalTransactionId) {
  */
 export async function verifyPayPalPayment(paypalTransactionId) {
   const accessToken = await getPayPalAccessToken();
+  const { PAYPAL_API_URL } = process.env;
   const paypalResponse = await fetch(
     `${PAYPAL_API_URL}/v2/checkout/orders/${paypalTransactionId}`,
     {

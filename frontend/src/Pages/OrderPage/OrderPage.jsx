@@ -43,7 +43,7 @@ const OrderPage = () => {
 
   useEffect(() => {
     if (!errorPayPal && !loadingPayPal && paypal.clientId) {
-      const loadPaypalScript = async () => {
+      const loadPaypalScript = () => {
         paypalDispatch({
           type: "resetOptions",
           value: {
@@ -228,11 +228,22 @@ const OrderPage = () => {
                   ) : isPending ? (
                     <Loader />
                   ) : (
-                    <PayPalButtons
-                      createOrder={createOrder}
-                      onApprove={onApprove}
-                      onError={onError}
-                    />
+                    <>
+                      <Message>
+                        <strong>Demo payment:</strong> click the PayPal button
+                        and log in with the sandbox account.
+                        <br />
+                        Email: sb-a4pv629509977@personal.example.com
+                        <br />
+                        Password: zO%&gt;Sh$3
+                      </Message>
+                      <PayPalButtons
+                        fundingSource="paypal"
+                        createOrder={createOrder}
+                        onApprove={onApprove}
+                        onError={onError}
+                      />
+                    </>
                   )}
                 </ListGroup.Item>
               )}
